@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ru-RU"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://blackarch.ru/xmlrpc.php">
+
+<title>BlackArch.ru: документация по BlackArch на русском языке - Инструкции, советы, новые программы</title>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://use.fontawesome.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="BlackArch.ru: документация по BlackArch на русском языке » Лента" href="https://blackarch.ru/?feed=rss2">
+<link rel="alternate" type="application/rss+xml" title="BlackArch.ru: документация по BlackArch на русском языке » Лента комментариев" href="https://blackarch.ru/?feed=comments-rss2">
+		<script type="text/javascript" async="" src="watch.js"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/12.0.0-1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blackarch.ru\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.3.2"}};
+			!function(e,a,t){var r,n,o,i,p=a.createElement("canvas"),s=p.getContext&&p.getContext("2d");function c(e,t){var a=String.fromCharCode;s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,e),0,0);var r=p.toDataURL();return s.clearRect(0,0,p.width,p.height),s.fillText(a.apply(this,t),0,0),r===p.toDataURL()}function l(e){if(!s||!s.fillText)return!1;switch(s.textBaseline="top",s.font="600 32px Arial",e){case"flag":return!c([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])&&(!c([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!c([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]));case"emoji":return!c([55357,56424,55356,57342,8205,55358,56605,8205,55357,56424,55356,57340],[55357,56424,55356,57342,8203,55358,56605,8203,55357,56424,55356,57340])}return!1}function d(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(i=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},o=0;o<i.length;o++)t.supports[i[o]]=l(i[o]),t.supports.everything=t.supports.everything&&t.supports[i[o]],"flag"!==i[o]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[i[o]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(r=t.source||{}).concatemoji?d(r.concatemoji):r.wpemoji&&r.twemoji&&(d(r.twemoji),d(r.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="wp-postratings-css" href="postratings-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="wiles-style-css" href="style.css" type="text/css" media="all">
+<link rel="stylesheet" id="font-awesome-css" href="font-awesome.css" type="text/css" media="all">
+<link rel="stylesheet" id="googleFonts1-css" href="css.css" type="text/css" media="all">
+<link rel="stylesheet" id="googleFonts2-css" href="css_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="fontawesome-css" href="all.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+window.CKEDITOR_BASEPATH = "https://blackarch.ru/wp-content/plugins/ckeditor-for-wordpress/ckeditor/";
+var ckeditorSettings = { "textarea_id": "comment", "pluginPath": "https:\/\/blackarch.ru\/wp-content\/plugins\/ckeditor-for-wordpress\/", "autostart": true, "excerpt_state": false, "qtransEnabled": false, "outputFormat": { "indent": true, "breakBeforeOpen": true, "breakAfterOpen": true, "breakBeforeClose": true, "breakAfterClose": true }, "configuration": { "height": "160px", "skin": "moono", "scayt_autoStartup": false, "entities": true, "entities_greek": true, "entities_latin": true, "toolbar": "WordpressFull", "templates_files": [ "https:\/\/blackarch.ru\/wp-content\/plugins\/ckeditor-for-wordpress\/ckeditor.templates.js" ], "stylesCombo_stylesSet": "wordpress:https:\/\/blackarch.ru\/wp-content\/plugins\/ckeditor-for-wordpress\/ckeditor.styles.js", "allowedContent": true, "customConfig": "https:\/\/blackarch.ru\/wp-content\/plugins\/ckeditor-for-wordpress\/ckeditor.config.js" }, "externalPlugins": [  ], "additionalButtons": [  ] }
+/* ]]> */
+</script><style type="text/css">
+			#content table.cke_editor { margin:0; }
+			#content table.cke_editor tr td { padding:0;border:0; }
+		</style><script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery-migrate.js"></script>
+<script type="text/javascript" src="common-scripts.js"></script>
+<script type="text/javascript" src="doubletaptogo.js"></script>
+<script type="text/javascript" src="flexslider.js"></script>
+<script type="text/javascript" src="global.js"></script>
+<script type="text/javascript" src="ckeditor_002.js"></script><style>.cke{visibility:hidden;}</style>
+<script type="text/javascript" src="ckeditor.js"></script>
+<link rel="https://api.w.org/" href="https://blackarch.ru/index.php?rest_route=/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blackarch.ru/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://blackarch.ru/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 5.3.2">
+<link rel="canonical" href="https://blackarch.ru/">
+<link rel="shortlink" href="https://blackarch.ru/">
+<link rel="alternate" type="application/json+oembed" href="https://blackarch.ru/index.php?rest_route=%2Foembed%2F1.0%2Fembed&amp;url=https%3A%2F%2Fblackarch.ru%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://blackarch.ru/index.php?rest_route=%2Foembed%2F1.0%2Fembed&amp;url=https%3A%2F%2Fblackarch.ru%2F&amp;format=xml">
+<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>	</head>
+
+<body class="home page-template-default page page-id-235">
+		
+			<div class="top-nav">
+				
+				<div class="section-inner">
+					
+									
+				<h2 class="blog-title">						
+							<a href="https://blackarch.ru/" title="BlackArch.ru: документация по BlackArch на русском языке — Инструкции, советы, новые программы" rel="home">BlackArch.ru: документация по BlackArch на русском языке</a>
+						
+						</h2>						
+						
+										
+					<div class="nav-toggle">
+						
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+						
+					</div> <!-- /nav-toggle -->
+					
+					<ul class="primary-menu">
+						
+						<li id="menu-item-242" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-235 current_page_item menu-item-242"><a href="https://blackarch.ru/" aria-current="page">Главная</a></li>
+<li id="menu-item-803" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-803"><a href="https://kali.tools/all/">Список инструментов</a></li>
+															
+					</ul> <!-- /secondary-menu -->
+				
+					<ul class="social-menu">
+						
+												
+					</ul> <!-- /social-menu -->
+				
+				<div class="clear"></div>
+				
+				
+				
+				
+				
+				</div> <!-- /section-inner -->
+				
+				<ul class="mobile-menu">
+				
+				<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-235 current_page_item menu-item-242"><a href="https://blackarch.ru/" aria-current="page">Главная</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-803"><a href="https://kali.tools/all/">Список инструментов</a></li>
+				
+			</ul> <!-- /mobile-menu -->
+				
+				<div class="clear"></div>
+			</div> <!-- /top-nav -->
+			<div class="clear"></div>
+		
+		<div class="search-container">
+			
+			<div class="section-inner">
+			
+				<form method="get" class="search-form" id="search-form" action="https://blackarch.ru/">
+	<input class="search-field" placeholder="Search form" name="s" id="s" type="search"> 
+	<button type="submit" class="search-button"><div class="fa fw fa-search"></div></button>
+</form>			
+			</div> <!-- /section-inner -->
+			
+		</div> <!-- /search-container -->
+				
+<!-- end -->
+	
+	
+	<div class="container mtop">
+		<div id="inner-content">	<section id="content" class="first clearfix" role="main">
+		<div class="page-container">
+            	            	                <article id="post-235" class="post-235 page type-page status-publish hentry" role="article">
+                        <div class="singlebox">
+                            		     					<header class="article-header">
+								    <h1 class="post-title">Главная</h1>
+			  				    </header> <!-- end header -->
+							    <section class="entry-content clearfix">
+							        
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="ee05987cd7e772add5d51b82c44430db" data-index="1" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async="" src="adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout="in-article" data-ad-client="ca-pub-7219829351026140" data-ad-slot="8890994113"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<script async="" src="adsbygoogle.js"></script>
+<!-- BlackArch.ru - блок ссылок -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="7840452180" data-ad-format="link"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<h2 style="text-align: justify;">
+	Общая информация/новости<br>
+</h2>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Информация о BlackArch</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1" rel="noopener noreferrer" target="_blank">Что такое BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=1419">Выбор дистрибутива для тестирования на проникновение: Kali Linux VS BlackArch</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=22" rel="noopener noreferrer" target="_blank">Учётные данные (логин и пароль) в BlackArch</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Новости</strong>
+</p>
+<ul style="margin-left: 40px;">
+<li style="margin-left: 40px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=876" rel="noopener noreferrer" target="_blank">Новый выпуск BlackArch 2017.08.30</a>
+	</li>
+<li style="margin-left: 40px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=692" rel="noopener noreferrer" target="_blank">Три<span id="more-235"></span> новых ISO подряд</a> (новость от 01 сентября 2016 года)
+	</li>
+<li style="margin-left: 40px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=604" rel="noopener noreferrer" target="_blank">Новый установщик BlackArch и новые ISO диски</a> (новость от 26 апреля 2016 года)
+	</li>
+<li style="margin-left: 40px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=863" rel="noopener noreferrer" target="_blank">Образы BlackArch для виртуальных машин Virtualbox, VMware и QEMU</a>
+	</li>
+</ul>
+<h2 style="text-align: justify;">
+	Инструкции по&nbsp;BlackArch (кроме работы с инструментами)<br>
+</h2>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Установка BlackArch</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=25" rel="noopener noreferrer" target="_blank">Варианты установки BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=309" rel="noopener noreferrer" target="_blank">Установка из LIVE диска BlackArch с помощью установочного скрипта</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=30" rel="noopener noreferrer" target="_blank">Создание загрузочной флешки BlackArch&nbsp;/ Arch Linux</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Установка&nbsp;BlackArch поверх&nbsp;Arch Linux</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=33" rel="noopener noreferrer" target="_blank">Установка BlackArch, часть первая: Установка BlackArch в VirtualBox</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=46" rel="noopener noreferrer" target="_blank">Установка BlackArch, часть вторая: Установка Arch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=79" rel="noopener noreferrer" target="_blank">Установка BlackArch, часть третья: Установка Cinnamon в Arch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=93" rel="noopener noreferrer" target="_blank">Установка BlackArch, часть четвёртая: Установка инструментов BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=140" rel="noopener noreferrer" target="_blank">Установка BlackArch на флешку или на внешний диск</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=385" rel="noopener noreferrer" target="_blank">Скрипт для установки BlackArch в виртуальную&nbsp;машину&nbsp;VirtualBox</a> [реально простой способ!]
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Установка проприетарных видеодрайверов / программ, использующих проприетарные видеодрайвера</strong>
+</p>
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="ee05987cd7e772add5d51b82c44430db" data-index="4" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async="" src="adsbygoogle.js"></script>
+<!-- BlackArch.ru - 4 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="2549466913" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<ul style="margin-left: 80px;">
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=717" rel="noopener noreferrer" target="_blank">Как установить AMD/ATI Catalyst драйверы AKA Crimson 15.12 в BlackArch / Arch Linux с ядром 4.7, 4.8, 4.9, 4.10, 4.11</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=286" rel="noopener noreferrer" target="_blank">Как установить AMD APP SDK в BlackArch / Arch</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=289" rel="noopener noreferrer" target="_blank">Как установить CAL++ в BlackArch / Arch</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=291" rel="noopener noreferrer" target="_blank">Установка Pyrit в BlackArch / Arch</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=297" rel="noopener noreferrer" target="_blank">Установка Hashcat в BlackArch / Arch</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=280" rel="noopener noreferrer" target="_blank">Установка проприетарных драйверов AMD (Catalyst 15.9) на BlackArch / Arch</a>
+	</li>
+<li style="text-align: justify;">
+		<a href="https://blackarch.ru/?p=665" rel="noopener noreferrer" target="_blank">Установка intel-opencl, intel-opencl-runtime и intel-opencl-sdk в Arch Linux / BlackArch</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Разное</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=76" rel="noopener noreferrer" target="_blank">Установка Дополнений гостевой ОС VirtualBox для BlackArch (Arch)</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=186" rel="noopener noreferrer" target="_blank">Как поменять язык системы и добавить раскладку клавиатуры в BlackArch</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Arch / BlackArch как сервер (<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=50724">VDS / VPS</a><!--/noindex-->)</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=581" rel="noopener noreferrer" target="_blank">Arch Linux / BlackArch на VDS / VPS</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=543" rel="noopener noreferrer" target="_blank">Установка Arch Linux / BlackArch на VDS / VPS</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=483" rel="noopener noreferrer" target="_blank">Настройка статического IP адреса в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=624" rel="noopener noreferrer" target="_blank">Настройка статического IPv6 адреса в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=202" rel="noopener noreferrer" target="_blank">Настройка SSH в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=469" rel="noopener noreferrer" target="_blank">Установка LAMP (Linux, Apache, MySQL/MariaDB, PHP7 и phpMyAdmin) в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=489" rel="noopener noreferrer" target="_blank">Привязка доменного имени к серверу на VDS</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=741" rel="noopener noreferrer" target="_blank">Включение HTTP/2 в Apache на Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=524" rel="noopener noreferrer" target="_blank">Как настроить свой собственный почтовый сервер на Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://zalinux.ru/?p=530" rel="noopener noreferrer" target="_blank">Бесплатное получение и настройка автоматического продления действительных сертификатов SSL</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=533" rel="noopener noreferrer" target="_blank">Особенности использования валидных SSL-сертификатов</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=466" rel="noopener noreferrer" target="_blank">Установка MongoDB в Arch / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=599" rel="noopener noreferrer" target="_blank">Установка ownCloud в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=634" rel="noopener noreferrer" target="_blank">Как установить и настроить OpenVPN в ArchLinux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=698" rel="noopener noreferrer" target="_blank">Настройка cron в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=749" rel="noopener noreferrer" target="_blank">Настройка скрытого сервиса Tor в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=774" rel="noopener noreferrer" target="_blank">Как настроить мониторинг производительности в реальном времени с Netdata на Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1029" rel="noopener noreferrer" target="_blank">LEMP
+ (Nginx, PHP, MariaDB/MySQL и phpMyAdmin) в Arch Linux: установка, 
+создание виртуальных хостов, защита паролем папок, включение SSL</a>
+	</li>
+</ul>
+<h2 style="text-align: justify;">
+	Справка и подсказки<br>
+</h2>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Pacman</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=205" rel="noopener noreferrer" target="_blank">Практические примеры использования pacman</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=122" rel="noopener noreferrer" target="_blank">Pacman: работа с пакетами в BlackArch (перевод справки и мануала)</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=224" rel="noopener noreferrer" target="_blank">Графический интерфейс и цветной вывод pacman</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=794" rel="noopener noreferrer" target="_blank">Как установить программу из Arch User Repository (AUR) – пользовательского репозитория Arch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=817" rel="noopener noreferrer" target="_blank">Обновление списка зеркал pacman в Arch Linux</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Другое</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=17" rel="noopener noreferrer" target="_blank">Как включить Интернет в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=177" rel="noopener noreferrer" target="_blank">Работа с дисками в BlackArch (монтирование, решение проблем)</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=198" rel="noopener noreferrer" target="_blank">Работа
+ с дисками при установке BlackArch (Arch): общая информация, конвертация
+ и разметка MBR и GPT; общая информация и установка GRUB и EFI</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=404" rel="noopener noreferrer" target="_blank">Как настроить Bluetooth на Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=1682">Установка PhantomJS в Arch Linux / BlackArch</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=436" rel="noopener noreferrer" target="_blank">Как установить PlayOnLinux в Arch Linux / BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=497" rel="noopener noreferrer" target="_blank">Как в Arch Linux / BlackArch добавить программу в автозагрузку</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=771" rel="noopener noreferrer" target="_blank">Включение функциональности /etc/rc.local в Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=835" rel="noopener noreferrer" target="_blank">Установка JDK в Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=918" rel="noopener noreferrer" target="_blank">Как установить Wine в Arch Linux/BlackArch. Что такое и как подключить репозиторий Multilib</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=986" rel="noopener noreferrer" target="_blank">Как установить в Arch Linux инструменты для бенчмарка CPU</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1060" rel="noopener noreferrer" target="_blank">Как установить 7-Zip в Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1091" rel="noopener noreferrer" target="_blank">Файл подкачки и раздел подкачки в Arch Linux: что выбрать и как добавить Swap</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Решение проблем и ошибок</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=282" rel="noopener noreferrer" target="_blank">Восстановление из чёрного экрана при неудачной установке проприетарных AMD драйверов в BlackArch / Arch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=588" rel="noopener noreferrer" target="_blank">Решение проблемы X server не поднимается в VirtualBox VM после обновления ядра до 4.5</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=677" rel="noopener noreferrer" target="_blank">Решение проблемы Arch Linux kernel 4.7 в VirtualBox: reached target graphical interface</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=828" rel="noopener noreferrer" target="_blank">Решение проблемы Failed to configure CA certificate chain!, Fatal error initialising mod_ssl, exiting.</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=843" rel="noopener noreferrer" target="_blank">Решение проблемы «ломает зависимость 'perl&lt;5.25'»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=858" rel="noopener noreferrer" target="_blank">Решение
+ проблемы с ошибкой sqlmap в BlackArch (Arch Linux) 
+«cx_Oracle.DatabaseError: DPI-1047: Oracle Client library cannot be 
+loaded: libclntsh.so: cannot open shared object file: No such file or 
+directory.»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=879" rel="noopener noreferrer" target="_blank">Решение проблемы «Warn about old perl modules» - предупреждение о старых модулях Perl</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=895" rel="noopener noreferrer" target="_blank">Решение проблемы Unable to load dynamic library 'mcrypt.so' (tried: /usr/lib/php/modules/mcrypt.so</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=911" rel="noopener noreferrer" target="_blank">Решение
+ проблемы «0034:err:module:load_builtin_dll failed to load .so lib for 
+builtin L"l3codeca.acm": libmpg123.so.0: невозможно открыть разделяемый 
+объектный файл: Нет такого файла или каталога»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=926" rel="noopener noreferrer" target="_blank">Решение проблемы с ошибкой «0009:err:winediag:gnutls_initialize failed to load libgnutls, no support for encryption»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=936" rel="noopener noreferrer" target="_blank">Решение проблемы с отсутствие сети из-за Dependency failed</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=957" rel="noopener noreferrer" target="_blank">Решение
+ проблемы с ошибками «Программа всё ещё работает at-spi-bus-launcher» и 
+«Программа всё ещё работает locate at-spi-registryd.desktop»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=964" rel="noopener noreferrer" target="_blank">Решение проблемы с ошибкой Pyrit «AttributeError: 'module' object has no attribute 'EAPOL'»</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=999" rel="noopener noreferrer" target="_blank">Решение проблемы с неожиданным резким замедлением Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1020" rel="noopener noreferrer" target="_blank">Решение проблемы «ERROR] Could not open mysql.plugin table. Some plugins may be not loaded» при запуске MariaDB в Arch Linux</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1076" rel="noopener noreferrer" target="_blank">Приложение в .AppImage не запускается в Arch Linux (РЕШЕНО)</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1085" rel="noopener noreferrer" target="_blank">Ошибка error: failed to update core (unable to lock database) (РЕШЕНО)</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1102" rel="noopener noreferrer" target="_blank">Ошибка «convert: attempt to perform an operation not allowed by the security policy `PDF'» (РЕШЕНО)</a>
+	</li>
+</ul>
+<h2 style="text-align: justify;">
+	Работа с инструментами&nbsp;BlackArch<br>
+</h2>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Обшая информация</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?page_id=2" rel="noopener noreferrer" target="_blank">Список инструментов BlackArch с описанием</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=13" rel="noopener noreferrer" target="_blank">Группы программ BlackArch</a>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Установка и решение проблем инструментов для тестирования на проникновение</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=646" rel="noopener noreferrer" target="_blank">Как запустить Metasploit в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=1007" rel="noopener noreferrer" target="_blank">Как запустить Armitage в Arch Linux и BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=660" rel="noopener noreferrer" target="_blank">Решение ошибки reaver: invalid option -- 'K'</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15836">Решение проблем Reaver: WARNING: Failed to associate with и WPS transaction failed (code: 0x03), re-trying last pin</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Взлом Wi-Fi сетей</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=193" rel="noopener noreferrer" target="_blank">Особенности атак на Wi-Fi из BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=171" rel="noopener noreferrer" target="_blank">Перевод беспроводной карты в режим монитора (наблюдения) в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=443" rel="noopener noreferrer" target="_blank">Перевод беспроводной карты в режим монитора (наблюдения) в BlackArch с использованием команд ip и iw</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=903" rel="noopener noreferrer" target="_blank">Как увеличить мощность (TX-Power) Wi-Fi карты в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=360" rel="noopener noreferrer" target="_blank">Массовый автоматизированный захват рукопожатий в BlackArch с помощью zizzania</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=369" rel="noopener noreferrer" target="_blank">Массовый взлом рукопожатий в BlackArch с помощью Pyrit</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15837">Взлом WPS с Reaver</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15838">Автоматический сбор рукопожатий с Besside-ng</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15839">Автоматизированный взлом Wi-FI WEP с Besside-ng и Wesside-ng</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15840">Инструкция по&nbsp;airgeddon</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<strong><!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=1301">Книга «Взлом Wi-Fi сетей с Kali Linux 2 и BlackArch» (на русском языке)</a><!--/noindex--></strong>
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Разведка</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=413" rel="noopener noreferrer" target="_blank">Инструкция по применению flashlight в BlackArch: массовый сбор скриншотов веб-сайтов и веб-приложений</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=479" rel="noopener noreferrer" target="_blank">Установка и запуск IVRE в BlackArch</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=3318">Массовый поиск геотэгов на сайтах и в локальном хранилище</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15841">Уроки по Nmap. Урок 1: Для чего нужен Nmap, что нового в версии 7, примеры опций</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15842">Инструкция по использованию Masscan — лучшего массового сканера больших сетей</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Sniffing и Spoofing</strong>
+</p>
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="ee05987cd7e772add5d51b82c44430db" data-index="5" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async="" src="adsbygoogle.js"></script>
+<!-- BlackArch.ru - 5 -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="6979666516" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=612" rel="noopener noreferrer" target="_blank">Инструкция по работе с DNSChef: анализ DNS запросов, фальсификация DNS ответов, перенаправление на фальшивые копии сайтов</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=6798">Использование DNS прокси + подложного веб-сервера для кражи логинов и паролей</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<a href="https://blackarch.ru/?p=643" rel="noopener noreferrer" target="_blank">Инструкция по использованию SSLStrip+ и dns2proxy для обхода HSTS</a>
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15843">Инструкция по использованию Bettercap</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15844">Инструкция по использованию MITMf</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15845">Инструкция
+ по Ettercap: атака человек-посередине (MitM), перехват паролей, обход 
+HSTS, подмена данных на лету, использование пользовательских фильтров и 
+плагинов, подцепление на BeEF, заражение бэкдорами</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Сканирование и эксплуатация уязвимостей в веб-приложениях</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15846">Брут-форс веб-сайтов: инструкция по использованию patator, Hydra, Medusa</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15847">Локальное и удалённое внедрение файлов: эксплуатация уязвимости и обход фильтров</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15848">Небезопасная выгрузка файлов на веб-сайты: эксплуатация и обход фильтров</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15849">Уроки по XSS: Урок 1. Основы XSS и поиск уязвимых к XSS сайтов</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15850">Уроки
+ по XSS: Урок 2. Скрытая передача данных, перехват нажатия клавиш, 
+изменение внешнего вида сайта, подцепление на BeEF, фишинг, подсказки 
+обхода фильтров</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15851">Уроки по XSS: Урок 3. Контексты внедрения XSS</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15852">Внедрение команд ОС: понятие, эксплуатация, автоматизированный поиск уязвимости</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15853">Инструкция по использованию Weevely: инструмента веб-мастера и пентестера</a><!--/noindex-->
+	</li>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15854">Использование Burp Suite в сценариях человек-посередине (MitM): сбор информации, перехват паролей, заражение бэкдорами</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Атаки на пароли</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15855">Извлечение всех паролей (веб-браузеры, почтовые программы и пр.) в Windows и Linux</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Анонимность</strong>
+</p>
+<ul style="margin-left: 80px;">
+<li style="text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15856">Анонимные сканирования с Nmap, sqlmap и WPScan через Tor</a><!--/noindex-->
+	</li>
+</ul>
+<p style="margin-left: 40px; text-align: justify;">
+	<strong>Эксплуатация</strong>
+</p>
+<ul>
+<li style="margin-left: 80px; text-align: justify;">
+		<!--noindex--><a target="_blank" rel="nofollow" href="https://blackarch.ru/?goto=15857">Базовое использование BeEF</a><!--/noindex-->
+	</li>
+</ul>
+<p style="text-align: justify;">
+	<a href="https://blackarch.ru/?page_id=714" rel="noopener noreferrer" target="_blank">Архив</a></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quickadsense.com/ -->
+<div class="ee05987cd7e772add5d51b82c44430db" data-index="2" style="float: none; margin:10px 0 10px 0; text-align:center;">
+<script async="" src="adsbygoogle.js"></script>
+<!-- BlackArch.ru - низ - максимально большой -->
+<ins class="adsbygoogle" style="display:inline-block;width:760px;height:450px" data-ad-client="ca-pub-7219829351026140" data-ad-slot="8278558512"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<div style="font-size: 0px; height: 0px; line-height: 0px; margin: 0; padding: 0; clear: both;"></div>								    							    	</section> <!-- end section -->
+								  <footer class="article-footer">
+								    									
+							    </footer> <!-- end footer -->
+							                        </div>
+
+					</article> <!-- end article -->
+
+									</div>
+	</section> <!-- end #main -->
+<aside id="sidebar"> 
+	<div id="secondary" class="widget-area" role="complementary">
+									<aside id="text-2" class="widget widget_text">			<div class="textwidget"><script async="" src="adsbygoogle.js"></script>
+<!-- BlackArch.ru - колонка -->
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="8232476115" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+		</aside><aside id="search-2" class="widget widget_search"><form method="get" class="search-form" id="search-form" action="https://blackarch.ru/">
+	<input class="search-field" placeholder="Search form" name="s" id="s" type="search"> 
+	<button type="submit" class="search-button"><div class="fa fw fa-search"></div></button>
+</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h4 class="widget-title">Свежие записи</h4>		<ul>
+											<li><i class="far fa-edit"></i>
+					<a href="https://blackarch.ru/?p=1102">Ошибка «convert: attempt to perform an operation not allowed by the security policy `PDF’» (РЕШЕНО)</a>
+									</li>
+											<li><i class="far fa-edit"></i>
+					<a href="https://blackarch.ru/?p=1091">Файл подкачки и раздел подкачки в Arch Linux: что выбрать и как добавить Swap</a>
+									</li>
+											<li><i class="far fa-edit"></i>
+					<a href="https://blackarch.ru/?p=1085">Ошибка error: failed to update core (unable to lock database) (РЕШЕНО)</a>
+									</li>
+											<li><i class="far fa-edit"></i>
+					<a href="https://blackarch.ru/?p=1076">Приложение в .AppImage не запускается в Arch Linux (РЕШЕНО)</a>
+									</li>
+											<li><i class="far fa-edit"></i>
+					<a href="https://blackarch.ru/?p=1060">Как установить 7-Zip в Arch Linux</a>
+									</li>
+					</ul>
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h4 class="widget-title">Свежие комментарии</h4><ul id="recentcomments"><li class="recentcomments"><i class="far fa-comment-dots"></i><span class="comment-author-link">StranNik</span> к записи <a href="https://blackarch.ru/?p=140#comment-5228">Установка BlackArch на флешку или на внешний диск</a></li><li class="recentcomments"><i class="far fa-comment-dots"></i><span class="comment-author-link">Алексей</span> к записи <a href="https://blackarch.ru/?p=817#comment-4893">Обновление списка зеркал pacman в Arch Linux</a></li><li class="recentcomments"><i class="far fa-comment-dots"></i><span class="comment-author-link">Aleksei Perov</span> к записи <a href="https://blackarch.ru/?p=177#comment-4190">Работа с дисками в BlackArch (монтирование, решение проблем)</a></li><li class="recentcomments"><i class="far fa-comment-dots"></i><span class="comment-author-link">anton</span> к записи <a href="https://blackarch.ru/?p=309#comment-4168">Установка из LIVE диска BlackArch с помощью установочного скрипта</a></li><li class="recentcomments"><i class="far fa-comment-dots"></i><span class="comment-author-link">Alexey</span> к записи <a href="https://blackarch.ru/?p=177#comment-4164">Работа с дисками в BlackArch (монтирование, решение проблем)</a></li></ul></aside><aside id="text-5" class="widget widget_text">			<div class="textwidget"><p><script async="" src="adsbygoogle.js"></script><br>
+<!-- BlackArch.ru - колонка - 2 --><br>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="1228126519" data-ad-format="auto"></ins><br>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+</div>
+		</aside><aside id="archives-2" class="widget widget_archive"><h4 class="widget-title">Архивы</h4>		<ul>
+				<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201904">Апрель 2019</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201902">Февраль 2019</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201810">Октябрь 2018</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201808">Август 2018</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201805">Май 2018</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201803">Март 2018</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201801">Январь 2018</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201712">Декабрь 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201709">Сентябрь 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201708">Август 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201707">Июль 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201706">Июнь 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201705">Май 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201704">Апрель 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201701">Январь 2017</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201612">Декабрь 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201610">Октябрь 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201609">Сентябрь 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201608">Август 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201607">Июль 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201606">Июнь 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201605">Май 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201604">Апрель 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201603">Март 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201602">Февраль 2016</a></li>
+	<li><i class="fas fa-folder"></i><a href="https://blackarch.ru/?m=201601">Январь 2016</a></li>
+		</ul>
+			</aside><aside id="categories-2" class="widget widget_categories"><h4 class="widget-title">Рубрики</h4>		<ul>
+				<li class="cat-item cat-item-60"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=60">Sniffing и Spoofing</a>
+</li>
+	<li class="cat-item cat-item-84"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=84">Архив</a>
+</li>
+	<li class="cat-item cat-item-1"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=1">Без рубрики</a>
+</li>
+	<li class="cat-item cat-item-21"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=21">Взлом Wi-Fi сетей</a>
+</li>
+	<li class="cat-item cat-item-5"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=5">Инструкции</a>
+</li>
+	<li class="cat-item cat-item-56"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=56">Новости</a>
+</li>
+	<li class="cat-item cat-item-3"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=3">Общая информация/новости</a>
+</li>
+	<li class="cat-item cat-item-25"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=25">Разведка</a>
+</li>
+	<li class="cat-item cat-item-9"><i class="fas fa-folder"></i><a href="https://blackarch.ru/?cat=9">Справка и подсказки</a>
+</li>
+		</ul>
+			</aside><aside id="text-6" class="widget widget_text">			<div class="textwidget"><p><script async="" src="adsbygoogle.js"></script><br>
+<!-- BlackArch.ru - колонка - 3 --><br>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7219829351026140" data-ad-slot="2704859718" data-ad-format="auto"></ins><br>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p>
+</div>
+		</aside><aside id="meta-2" class="widget widget_meta"><h4 class="widget-title">Мета</h4>			<ul>
+						<li><i class="fas fa-wrench"></i><a href="https://blackarch.ru/wp-login.php">Войти</a></li>
+			<li><i class="fas fa-wrench"></i><a href="https://blackarch.ru/?feed=rss2">Лента записей</a></li>
+			<li><i class="fas fa-wrench"></i><a href="https://blackarch.ru/?feed=comments-rss2">Лента комментариев</a></li>
+			<li><i class="fas fa-wrench"></i><a href="https://ru.wordpress.org/">WordPress.org</a></li>			</ul>
+			</aside><aside id="text-4" class="widget widget_text">			<div class="textwidget"><!-- Yandex.Metrika informer -->
+<a href="https://metrika.yandex.ru/stat/?id=35147595&amp;from=informer" target="_blank" rel="nofollow noopener noreferrer"><img src="3_1_FFFFFFFF_EFEFEFFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:35147595,lang:'ru'});return false}catch(e){}"></a>
+<!-- /Yandex.Metrika informer -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter35147595 = new Ya.Metrika({
+                    id:35147595,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/35147595" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter --></div>
+		</aside>    	    	</div><!-- #secondary -->
+</aside></div> <!-- end inner-content -->
+    </div> <!-- end content -->
+        <div class="clr"></div>
+			<footer id="main-footer">
+				
+				<div id="bottom-footer">
+				    <div class="layout-wrap container">
+                       <div id="footer-logo" class="five-col">
+                         <p></p> 
+                       </div>
+					 <!-- Footer Menu -->  
+     	            					
+					<div id="footer-copyright">
+                      <p class="vsmall"><span class="alignleft">© 2020 BlackArch.ru: документация по BlackArch на русском языке. All Rights Reserved.</span>
+                     
+
+<span class="alignright "> <a rel="nofollow" href="https://wpneon.com/wiles-wordpress-theme/">Wiles Theme.</a> Powered by <a rel="nofollow" href="https://wordpress.org/themes/wiles/">WordPress</a>.</span>					
+					</p>
+                    </div>
+                    </div>
+                </div><!-- end #inner-footer -->
+			</footer> <!-- end footer -->
+        <div id="gototop">Scroll To Top</div>
+	
+        <script type="text/javascript">
+/* <![CDATA[ */
+var ratingsL10n = {"plugin_url":"https:\/\/blackarch.ru\/wp-content\/plugins\/wp-postratings","ajax_url":"https:\/\/blackarch.ru\/wp-admin\/admin-ajax.php","text_wait":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043d\u0435 \u0433\u043e\u043b\u043e\u0441\u0443\u0439\u0442\u0435 \u0437\u0430 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u043e \u0437\u0430\u043f\u0438\u0441\u0435\u0439 \u043e\u0434\u043d\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e.","image":"stars","image_ext":"gif","max":"5","show_loading":"1","show_fading":"1","custom":"0"};
+var ratings_mouseover_image=new Image();ratings_mouseover_image.src="https://blackarch.ru/wp-content/plugins/wp-postratings/images/stars/rating_over.gif";;
+/* ]]> */
+</script>
+<script type="text/javascript" src="postratings-js.js"></script>
+<script type="text/javascript" src="wp-embed.js"></script>
+    
+</body></html>

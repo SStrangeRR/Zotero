@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>429 — Слишком много запросов</title>
+    <meta name="description" content="Автомобильная социальная сеть">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        html{height:100%;background:#fff;color:#333;font:16px/1.4 sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",rouble}body{display:table;width:100%;height:100%;padding:0;margin:0;table-layout:fixed;border-collapse:collapse;border-spacing:0}a{color:#205090}h1{margin:0 0 20px;font-size:24px;line-height:1;font-family:"Helvetica Neue",HelveticaNeue,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",rouble}@media (max-width:1000px){h1{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol",rouble}}.l-body{max-width:960px;height:100%;margin:0 auto}.l-top{position:absolute;left:0;top:0;width:100%;height:50px;background:rgba(0,0,0,.9)}.l-top__content{max-width:960px;margin:0 auto}.l-footer{z-index:1;position:relative;display:table-footer-group;height:1px;padding:0}.logo{display:block;width:120px;height:50px;background:#c03 no-repeat;background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAMAAACgee/qAAAAVFBMVEXMADP////WMlvfYYHuqrvWMVrZQWfRF0XgYoHmhJ3TJVHuq7z21N366O3yvsvTJFDPDj7jcY3PDT3cUHP65+zyvcrRGEb209zicI3qlqvcT3LqlarAkzuTAAABrUlEQVR4Xu2U2YpdIRAAu9zOvt11ZvL//xmkm3O95GkkkDBYz5bViig/g0aj0Wg0Gl0c5a9AZvYikUxIIg6QBHQiAQ5B8SKXAMxbKXP3oraK3wqDtzAk3aQDogjwVYRXMsv+Ln9YOFaEpzM8m3/LpQcwvg+3Al/vMp24mhO7/hzXA5v6AQ6bAYiS8TDLCv4lxw3wdSeODiga6nsIubQW4UfyV5mgL6aWScM1J36FL69wgjmHB9vfyEtIxdR6A67qxNEs4gBc1B8BCeBFgHUKQQUPSyF7DyQN155YCeYLMN71aSt624AXA2W5VIZjEV5GiepPYDuV4QHml6xcxcLVj+sOg5gvH9DDqmEfnctCpx0jKzpIrAyb1cFim4hcIcAvW2PCpJ1CfsJoTv3jkvl8KNoH/xaOQHqXh/qfy3lYNHfAcPpknK1RIcAkmc73vcoJnhreU8WX+am5EW7nG1kB9vI/31CcrtGJFtjkAcw3mL8TLre6QYoWHoCnlGH3ZzjKJxwik635XviexMIDDBYWD0xFuJd4huMrfCWPtweAQ/4BXXS7/Kc0Go1Go9H4Df4NC5xJ3KpEAAAAAElFTkSuQmCC)}.logo span{display:none}.logo--en{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAAyCAMAAACgee/qAAAAS1BMVEXMADP////ZQGbPED/mgJn88PPicIzzwMzfYH/soLPcUHP54Ob87/LSIEzVMFnvsL/20Nn53+XpkKblf5jyv8v2z9jib4vYP2Xpj6VtmUImAAABtUlEQVR4Xu3UiYrbMBRG4f9o9e5sM+37P2lBFyFioI4LBQZ0wHAdKXxYgPTj6/V6vV6vtx4Ar38LgPuzTq/JJjcAkiIEYTlpewG/G5AW4OklhQWWp+RgKUAEdwrDcJicAzYbG+wXAFJ1B0oPKYGtOGCSNPEZnOvE0rRJDvANTsAMXxW+QYyAFGGe4V7gXdJ+DqOhwm6LsBl8g6ABZlspUIbkgAoD64r9Bb8BBcbL8wnsAIOVwdk0wqgAucFy4bEdYCk5b5MqTFK6Ct+ocIKsHUKDS3YIDS4d4C/drsHf38BqkINFGaYCf71eLyNmCGcwjmswtKP1gIDVVqqRIPpT+H4djpvB0gwOot5gv0DQCRztuQDPsKvCOwTIBo8hFC9A9GfwaM8FeAJ8hQNkeKi+tw8+gydg+BCOxu0wVMgBMLzBI8z+AIdf2wFWBH/tAkmwV2gFYGuw/TSUaXg+XZF8kd4vEI3sOoWt0bgV8BWKAG0PToFSljIEaYYFuJW99zvcDJb0Kby2C2SocDbjL7C9M9WJdBHOru580E4pAONfYT0izJMkhQgx6AD/z7x+TL1er9fr9f4AOeMLgUQuGg4AAAAASUVORK5CYII=)}.list-regular{margin:0}.list-regular li{margin:0 0 .6em;list-style-type:none}.list-regular li::before{content:'\2014';float:left;margin-left:-1.6em}.error{margin-top:100px;float:right;position:relative;right:50%;min-height:280px;font-size:15px;line-height:1.4}@media (max-width:1000px){.error{margin-top:70px;float:none;min-height:0;right:auto;padding:0 10px 20px}}.error-i{min-height:360px;position:relative;right:-50%;padding-bottom:50px}@media (max-width:1000px){.error-i{position:static;min-height:0;padding-bottom:0}}.error-i a{text-decoration:underline}.footer{max-width:960px;margin:0 auto;padding:36px 0 33px;color:grey;font-size:12px;line-height:1.8}@media (max-width:1000px){.footer{margin:0;padding:25px 10px 40px;font-size:15px;line-height:1.4;text-align:center}}.footer__links{margin-top:10px;margin-left:120px;overflow:hidden}@media (max-width:1000px){.footer__links{margin-top:0;margin-left:0}}.footer__links p{margin:0}@media (max-width:1000px){.footer__links p{margin-bottom:24px}}.footer__links a{position:relative;margin-right:1.2em;white-space:nowrap}@media (max-width:1000px){.footer__links a{margin-right:.7em}}.footer__copyrights{margin-left:120px}@media (max-width:1000px){.footer__copyrights{margin-left:0}}.c-link{color:#205090;text-decoration:none;cursor:pointer}.c-link--gray{color:grey}.c-link--gray:hover{color:grey}
+    </style>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','_ga');
+        _ga('create', 'UA-21235067-2', 'drive2.ru');
+        _ga('send', 'pageview');
+    </script>
+</head>
+<body>
+    <div class="l-body">
+        <div class="l-top">
+            <div class="l-top__content">
+                <a class="logo" rel="home" href="/"><span>DRIVE2.RU</span></a>
+            </div>
+        </div>
+        <div class="l-content">
+            <div class="error">
+                <div class="error-i">
+                    <h1>429 — Слишком много запросов</h1>
+                    <div class="text">
+                        <p>Зафиксировано превышение допустимой нагрузки, пожалуйста повторите ваш запрос позже.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="l-footer">
+        <div class="footer">
+            <div class="footer__links">
+                
+                <p>
+                    <a class="c-link c-link--gray" href="/help/">Помощь</a>
+                    <a class="c-link c-link--gray" href="/o/BrandSupport">Символика</a>
+                    <a class="c-link c-link--gray" href="http://vk.com/drive2" rel="noopener" target="_blank">ВКонтакте</a>
+                    <a class="c-link c-link--gray" href="/mobile/">Мобильный DRIVE2</a>
+                </p>
+                <p>
+                    <a class="c-link c-link--gray" href="/about/">О проекте</a>
+                    <a class="c-link c-link--gray" href="/business/">Бизнес-аккаунт</a>
+                    <a class="c-link c-link--gray" href="/promo/">Реклама и сотрудничество</a>
+                    <a class="c-link c-link--gray" href="/rules/">Правила сайта</a>
+                </p>
+                
+            </div>
+            <div class="footer__copyrights">
+                © DRIVE2.RU, 2020
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+    (function (win, doc, cb) {
+        (win[cb] = win[cb] || []).push(function () {
+            try {
+                tnsCounterDrive_ru = new TNS.TnsCounter({
+                    'account': 'drive_ru',
+                    'tmsec': 'drive2_total'
+                });
+            } catch (e) { }
+        });
+
+        var tnsscript = doc.createElement('script');
+        tnsscript.type = 'text/javascript';
+        tnsscript.async = true;
+        tnsscript.src = ('https:' == doc.location.protocol ? 'https:' : 'http:') +
+			'//www.tns-counter.ru/tcounter.js';
+        var s = doc.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(tnsscript, s);
+    })(window, this.document, 'tnscounter_callback');
+    </script>
+    <noscript>
+        <img src="//www.tns-counter.ru/V13a****drive_ru/ru/UTF-8/tmsec=drive2_total/" width="0" height="0" alt="" />
+    </noscript>
+    
+    <script>
+    new Image().src = "//counter.yadro.ru/hit;DRIVE?r"+escape(document.referrer)+((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+";"+Math.random();
+    </script>
+</body>
+</html>

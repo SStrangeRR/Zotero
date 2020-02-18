@@ -1,0 +1,370 @@
+
+Manjaro Linux
+
+Русское сообщество
+
+Пропустить
+
+Расширенный поиск
+
+    форум
+    Скачать
+    Manjaro на DistroWatch
+    IRC
+    Новый сайт сообщества Manjaro
+
+    Список форумов ‹ Технические вопросы и помощь ‹ Учебники (How-To & F.A.Q) ‹ Софт
+    Изменить размер шрифта
+    Версия для печати
+
+    Авторизация
+    FAQ
+
+Установка и настройка LAMP в Manjaro и Arch linux
+Описание полезных, на ваш взгляд, прорамм работающих под Linux Manjaro, и их установка
+Ответить
+1 сообщение • Страница 1 из 1
+Установка и настройка LAMP в Manjaro и Arch linux
+
+Сообщение manjarqo » 27 окт 2015, 01:26
+Нашел здесь очень полезную статью, о том, как легко установить и первично настроить для работы LAMP.
+
+Apache — это самый популярный веб-сервер. Его задача как и любого другого веб-сервера — отдавать контент на запросы клиентов. Apache обладает большим функционалом за счет подключаемых модулей.
+
+Установка
+
+Код: Выделить всё
+    sudo pacman -S apache php php-apache mysql 
+
+
+
+Это наиболее популярный вариант установки. Таким образом мы получим небезызвестный LAMP — Linux + Apache + MySQL + PHP
+
+Если вы не нуждаетесь в каком-либо из компонентов, не ставьте его.
+
+Не забудьте установить пароль для пользователя MySQL. Для этого необходимо запустить сервер командой sudo systemctl start httpd.service , а затем выполнить следующее (на примере установки с выбором mariadb):
+
+Код: Выделить всё
+    # mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+    # systemctl start mysqld.service
+    # mysql_secure_installation 
+
+
+
+Теперь если вы попробуете зайти без пароля, у вас ничего не выйдет:
+
+Код: Выделить всё
+    $ sudo mysql -u root
+    ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+
+
+
+Команды на вход с паролем и выход:
+
+Код: Выделить всё
+    $sudo mysql -u root -p
+    \q 
+
+
+
+Теперь проверим, есть ли в /etc/shadow пользователь http:
+
+Код: Выделить всё
+    # cat /etc/shadow | grep http:
+    http:x:14871::::::
+
+
+
+Если такой строки вами найдено не было, добавляем пользователя вручную:
+
+Код: Выделить всё
+    # useradd -d /srv/http -r -s /bin/false -U http
+
+
+
+Смотрим содержание нашего /etc/hosts:
+
+Код: Выделить всё
+    # /etc/hosts: static lookup table for host names
+    #
+    #<ip-address> <hostname.domain.org> <hostname>
+    127.0.0.1 localhost.localdomain localhost linux
+
+
+
+Примечание: здесь и далее linux - имя хоста, т.е. вашей машины
+
+Имя хоста должно быть прописано в /etc/hostname:
+
+Код: Выделить всё
+    $ cat /etc/hostname
+    linux 
+
+
+
+Итак, если вы ещё не запустили Apache, пришло время сделать это:
+
+Код: Выделить всё
+    # systemctl start httpd.service 
+
+
+
+Проверим его работоспособность, пройдя по ссылке в браузере: http://localhost/ Если всё нормально, вы увидите следующее изображение:
+
+localhost
+
+Что делать с PHP?
+
+Измените /etc/httpd/conf/httpd.conf:
+
+Код: Выделить всё
+    # закомментировать строку
+    # LoadModule mpm_event_module modules/mod_mpm_event.so
+    # и добавить
+    LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+
+
+
+Для того чтобы обрабатывались *.php файлы:
+
+Код: Выделить всё
+    # после строки LoadModule dir_module modules/mod_dir.so
+    # добавить
+    LoadModule php5_module modules/libphp5.so
+    # в список Include где-нибудь после строк
+    # Various default settings
+    Include conf/extra/httpd-default.conf
+    # добавить
+    Include conf/extra/php5_module.conf 
+
+
+
+Удостоверьтесь, что корневая директория веб-сервера (по-умолчанию /srv/http/) находится в списке open_basedir файла /etc/php/php.ini
+
+Код: Выделить всё
+    open_basedir=/srv/http/:/home/:/tmp/:/usr/share/pear/:/path/to/documentroot 
+
+
+
+После чего понадобится перезапустить веб-сервер:
+
+Код: Выделить всё
+    # systemctl restart httpd.service 
+
+
+
+Пришло время проверить отображение php-файлов. Можно создать каталог public_html, внутрь которого положить файл test.php стандартного содержания:
+
+Код: Выделить всё
+    <html>
+      <head>
+        <title>PHP</title>
+      </head>
+      <body>
+        <?php phpinfo(); ?>
+      </body>
+    </html>
+
+
+
+
+Если php работает, при помощи функции phpinfo() будет выведена служебная информация.
+
+
+MySQL
+
+Для поддержки MySQL в /etc/php/php.ini раскомментируйте следующие строку:
+
+Код: Выделить всё
+    ;extension=mysql.so 
+
+
+
+Запустите mysql, если это не было сделано раньше. Убедитесь, что группа и пользователь mysql существуют.
+
+Права на корневую директорию mysql должны принадлежать соответствующему пользователю:
+
+Код: Выделить всё
+    # ls -l /var/lib/mysql
+    итого 110700
+    -rw-rw---- 1 mysql mysql 16384 июн
+    -rw-rw---- 1 mysql mysql 52 июн 
+
+
+
+Если это не так, измените владельца:
+
+Код: Выделить всё
+    # chown -R mysql:mysql /var/lib/mysql 
+
+
+
+Кстати, файл конфигурации mysql расположен в /etc/mysql/my.cnf.
+
+Установка базы данных
+
+Если вы хотите запускать mysql от имени суперпользователя, можете не применять опцию --user и не изменять владельца
+
+Код: Выделить всё
+    # mysql_install_db --datadir=/var/lib/mysql --user=mysql
+    # chown -R mysql:mysql /var/lib/mysql 
+
+
+
+Для запуска MySQL:
+
+Код: Выделить всё
+    # systemctl start mysqld.service 
+
+
+
+Тестируем mysql (как root):
+
+Код: Выделить всё
+    # mysql -u root -p 
+
+
+
+Задать пароль для mysql :
+
+Код: Выделить всё
+    # mysqladmin -u root password 'пароль_root' 
+
+
+
+Для входа в mysql:
+
+Код: Выделить всё
+    # mysql -u root -h linux -p 
+
+
+
+где linux - не забывайте! - имя вашего хоста.
+Установка phpMyAdmin (не бязательно)
+
+Следует установить нужные пакеты:
+
+Код: Выделить всё
+    $ sudo pacman -S php-mcrypt phpmyadmin 
+
+
+
+После чего убедиться, что в конфигурационном файле php раскомментированы две строки:
+
+Код: Выделить всё
+    extension=mysqli.so
+    extension=mcrypt.so
+    extension=bz2.so
+    extension=zip.so 
+
+
+
+И исправить несколько файлов как указано ниже.
+
+в /etc/php/php.ini (добавить /etc/webapps)
+
+Код: Выделить всё
+    open_basedir = /srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/:/etc/webapps 
+
+
+
+в /etc/httpd/conf/extra/phpmyadmin.conf
+
+Код: Выделить всё
+    Alias /phpmyadmin "/usr/share/webapps/phpMyAdmin"
+    <Directory "/usr/share/webapps/phpMyAdmin">
+        DirectoryIndex index.php
+        AllowOverride All
+        Options FollowSymlinks
+        Require all granted
+    </Directory> 
+
+
+
+в /etc/httpd/conf/httpd.conf
+
+Код: Выделить всё
+    # phpMyAdmin configuration
+    Include conf/extra/phpmyadmin.conf 
+
+
+
+Можно взглянуть на файл конфигурации phpmyadmin, но исправлять там ничего не нужно, в примерах ниже мы проведём настройку другим способом.
+
+Код: Выделить всё
+    // /etc/webapps/phpmyadmin/config.inc.php
+    // хост
+    $cfg['Servers'][$i]['host'] = 'localhost';
+    // по-умолчанию не предоставляется доступ без пароля
+    $cfg['Servers'][$i]['AllowNoPassword'] = true;
+    // имя пользователя и пароль
+    $cfg['Servers'][$i]['controluser'] = 'pma';
+    $cfg['Servers'][$i]['controlpass'] = 'pmapass';
+
+
+
+phpMyAdmin настроим из веб-интерфейса. Чтобы это стало возможным в соответствии с документацией создадим директорию, доступную на запись пользователю httpd:
+
+Код: Выделить всё
+    # cd /usr/share/webapps/phpMyAdmin
+    # mkdir config
+    # chgrp http config
+    # chmod g+w config 
+
+
+
+После чего можно перейти к настройкам по адреcу http://localhost/phpmyadmin/setup
+
+Отредактируем файл/etc/webapps/phpmyadmin/.htaccess
+
+Код: Выделить всё
+    # /etc/webapps/phpmyadmin/.htaccess
+    deny from all 
+
+
+
+Теперь, перезагрузив наш httpd:
+
+Код: Выделить всё
+    sudo systemctl restart httpd.service 
+
+
+
+можно войти в phpmyadmin по адресу http://localhost/phpmyadmin . Для входа от рута используйте логин root и пароль, заданный при настройке mysql.
+
+Аватара пользователя
+manjarqo
+    Администратор
+     
+    Автор темы 
+    Сообщения: 407
+    Зарегистрирован: 30 июн 2014, 15:36
+    Откуда: Краснодар
+    Благодарил (а): 51 раз.
+    Поблагодарили: 64 раз.
+
+Вернуться к началу
+Установка и настройка LAMP в Manjaro и Arch linux
+
+Спонсор
+Вставьте здесь код рекламного блока
+
+Спонсор
+     
+
+Вернуться к началу
+Ответить
+1 сообщение • Страница 1 из 1
+
+Вернуться в Софт
+
+
+Кто сейчас на конференции
+
+Сейчас этот форум просматривают: нет зарегистрированных пользователей и гости: 1
+
+    Список форумов
+    Наша команда • Удалить cookies конференции • Часовой пояс: UTC + 4 часа
+
+Русскоязычное сообщество Manjaro Linux
+Русская поддержка phpBB

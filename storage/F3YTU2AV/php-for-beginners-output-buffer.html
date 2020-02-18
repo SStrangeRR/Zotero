@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHP для начинающих. Буфер вывода</title>
+  <link rel="profile" href="http://gmpg.org/xfn/11">
+  <link rel="pingback" href="https://anton.shevchuk.name/xmlrpc.php">
+  <link rel="apple-touch-icon" href="https://anton.shevchuk.name/wp-content/themes/desktop5/images/icons/icon-180x180.png">
+  <link rel="icon" type="image/png" href="https://anton.shevchuk.name/wp-content/themes/desktop5/images/icons/icon-192x192.png" sizes="192x192">
+  <link rel="manifest" href="https://anton.shevchuk.name/wp-content/themes/desktop5/manifest.json">
+  <link rel="shortcut icon" href="https://anton.shevchuk.name/wp-content/themes/desktop5/images/favicon.ico">
+  <meta name="msapplication-TileColor" content="#b91d47">
+  <meta name="msapplication-TileImage" content="/wp-content/themes/desktop5/images/icons/icon-144x144.png">
+  <meta name="msapplication-config" content="/wp-content/themes/desktop5/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" type="application/rss+xml" title="Антон Шевчук » Announce Feed" href="https://anton.shevchuk.name/feed/?announce=1">
+
+<!-- All in One SEO Pack 3.3.4 by Michael Torbert of Semper Fi Web Design[152,207] -->
+<meta name="description" content="Продолжаю публиковать статьи из серии «PHP для начинающих», в этот раз речь пойдёт о буфере вывода. Если захотите, то кратко о том как работает стандартный">
+
+<meta name="keywords" content="education,php">
+
+<script type="application/ld+json" class="aioseop-schema">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://anton.shevchuk.name/#organization","url":"https://anton.shevchuk.name/","name":"\u0410\u043d\u0442\u043e\u043d \u0428\u0435\u0432\u0447\u0443\u043a","sameAs":[]},{"@type":"WebSite","@id":"https://anton.shevchuk.name/#website","url":"https://anton.shevchuk.name/","name":"\u0410\u043d\u0442\u043e\u043d \u0428\u0435\u0432\u0447\u0443\u043a","publisher":{"@id":"https://anton.shevchuk.name/#organization"}},{"@type":"WebPage","@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#webpage","url":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/","inLanguage":"en-US","name":"PHP \u0434\u043b\u044f \u043d\u0430\u0447\u0438\u043d\u0430\u044e\u0449\u0438\u0445. \u0411\u0443\u0444\u0435\u0440 \u0432\u044b\u0432\u043e\u0434\u0430","isPartOf":{"@id":"https://anton.shevchuk.name/#website"},"image":{"@type":"ImageObject","@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#primaryimage","url":"https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock.png","width":361,"height":361},"primaryImageOfPage":{"@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#primaryimage"},"datePublished":"2016-08-15T08:27:43+02:00","dateModified":"2019-10-16T06:41:11+02:00"},{"@type":"Article","@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#article","isPartOf":{"@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#webpage"},"author":{"@id":"https://anton.shevchuk.name/author/admin/#author"},"headline":"PHP \u0434\u043b\u044f \u043d\u0430\u0447\u0438\u043d\u0430\u044e\u0449\u0438\u0445. \u0411\u0443\u0444\u0435\u0440 \u0432\u044b\u0432\u043e\u0434\u0430","datePublished":"2016-08-15T08:27:43+02:00","dateModified":"2019-10-16T06:41:11+02:00","commentCount":"11","mainEntityOfPage":{"@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#webpage"},"publisher":{"@id":"https://anton.shevchuk.name/#organization"},"articleSection":"PHP, Education","image":{"@type":"ImageObject","@id":"https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#primaryimage","url":"https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock.png","width":361,"height":361}},{"@type":"Person","@id":"https://anton.shevchuk.name/author/admin/#author","name":"Anton Shevchuk","sameAs":["https://www.facebook.com/anton.shevchuk","AntonShevchuk"],"image":{"@type":"ImageObject","@id":"https://anton.shevchuk.name/#personlogo","url":"https://secure.gravatar.com/avatar/ea4139df8a4d0b30b65135dba2a9d397?s=96&d=mm&r=pg","width":96,"height":96,"caption":"Anton Shevchuk"}}]}</script>
+<link rel="canonical" href="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/">
+			<script type="text/javascript">
+				window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+				ga('create', 'UA-1669896-2', 'auto');
+				// Plugins
+				
+				ga('send', 'pageview');
+			</script>
+			<script async="" src="analytics.js"></script>
+			<!-- All in One SEO Pack -->
+<link rel="alternate" type="application/rss+xml" title="Антон Шевчук » Feed" href="https://anton.shevchuk.name/feed/">
+<link rel="alternate" type="application/rss+xml" title="Антон Шевчук » Comments Feed" href="https://anton.shevchuk.name/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Антон Шевчук » PHP для начинающих. Буфер вывода Comments Feed" href="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/feed/">
+<link rel="stylesheet" id="future-theme-css" href="style.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-block-library-css" href="style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-pagenavi-css" href="pagenavi-css.css" type="text/css" media="all">
+<link rel="stylesheet" id="a-slideshow-css" href="styles.css" type="text/css" media="all">
+<script type="text/javascript" src="jquery_002.js"></script>
+<script type="text/javascript" src="jquery-migrate.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<link rel="https://api.w.org/" href="https://anton.shevchuk.name/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://anton.shevchuk.name/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://anton.shevchuk.name/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="PHP Frameworks Day 2016" href="https://anton.shevchuk.name/php/php-frameworks-day-2016/">
+<link rel="next" title="Куда идёт сеньор?" href="https://anton.shevchuk.name/php/next-step-for-senior-developer/">
+<meta name="generator" content="WordPress 5.3.2">
+<link rel="shortlink" href="https://anton.shevchuk.name/?p=2865">
+<link rel="alternate" type="application/json+oembed" href="https://anton.shevchuk.name/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fanton.shevchuk.name%2Fphp%2Fphp-for-beginners-output-buffer%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://anton.shevchuk.name/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fanton.shevchuk.name%2Fphp%2Fphp-for-beginners-output-buffer%2F&amp;format=xml">
+<meta property="og:title" name="og:title" content="PHP для начинающих. Буфер вывода">
+<meta property="og:type" name="og:type" content="article">
+<meta property="og:image" name="og:image" content="https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock.png">
+<meta property="og:url" name="og:url" content="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/">
+<meta property="og:description" name="og:description" content="Продолжаю публиковать статьи из серии «PHP для начинающих», в этот раз речь пойдёт о буфере вывода. Если захотите, то кратко о том как работает стандартный буфер вывода в PHP можно почитать на страницах официального руководства, но это не мой метод, я буду рассказывать на примерах, да ещё для закрепления материала задание выдам. Для начала, даю [...]">
+<meta property="og:locale" name="og:locale" content="en_US">
+<meta property="og:site_name" name="og:site_name" content="Антон Шевчук">
+<meta property="twitter:card" name="twitter:card" content="summary_large_image">
+<meta property="twitter:creator" name="twitter:creator" content="@AntonShevchuk">
+<meta property="article:tag" name="article:tag" content="Education">
+<meta property="article:section" name="article:section" content="PHP">
+<meta property="article:published_time" name="article:published_time" content="2016-08-15T10:27:43+02:00">
+<meta property="article:modified_time" name="article:modified_time" content="2019-10-16T08:41:11+02:00">
+<meta property="article:author" name="article:author" content="https://anton.shevchuk.name/author/admin/">
+<meta property="article:author" name="article:author" content="https://www.facebook.com/anton.shevchuk">
+<link rel="amphtml" href="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/amp/"><link rel="stylesheet" type="text/css" href="shCore.css"><link rel="stylesheet" type="text/css" href="shThemeDefault.css"></head>
+
+<body>
+<div id="wrapper">
+  <div id="container">
+    <header id="title">
+              <a href="https://anton.shevchuk.name/" title="Антон Шевчук" class="header">
+            Антон Шевчук          <span> // Web-разработчик</span>
+        </a>
+          </header>
+    <div id="menu" class="decor">
+      <a id="jquery" href="https://anton.shevchuk.name/jquery-book/" title="jQuery для начинающих">jQuery</a>
+      <a href="https://anton.shevchuk.name/about/" title="Немного о себе">Об авторе</a>
+      <a href="https://anton.shevchuk.name/projects/" title="Мои проекты">Проекты</a>
+      <a id="twitter" href="https://twitter.com/AntonShevchuk" title="Следуй за мной">2345</a>
+      <a id="feed" href="https://anton.shevchuk.name/feed/" title="Не ленись - подпишись">3101</a>
+    </div>
+    <section id="posts">
+    <article class="entry">
+    <header>
+      <h1 class="title" data-id="2865">
+        <a href="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/" title="Permalink to PHP для начинающих. Буфер вывода" rel="bookmark">
+            PHP для начинающих. Буфер вывода        </a>
+        <span>//</span> <a href="https://anton.shevchuk.name/category/php/" class="category" title="PHP">PHP</a>      </h1>
+    </header>
+
+    <img src="elephpant-rock.png" class="aligncenter wp-post-image" alt="" srcset="https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock.png 361w, https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock-300x300.png 300w, https://anton.shevchuk.name/wp-content/uploads/2016/02/elephpant-rock-200x200.png 200w" sizes="(max-width: 360px) 100vw, 360px" height="360" width="360">    <p>Продолжаю публиковать статьи из серии «PHP для начинающих», в этот раз речь пойдёт о буфере вывода.</p>
+<p><span id="more-2865"></span></p>
+<blockquote><p>Если захотите, то кратко о том как работает стандартный буфер вывода в PHP можно почитать на страницах <a href="http://php.net/book.outcontrol">официального руководства</a>, но это не мой метод, я буду рассказывать на примерах, да ещё для закрепления материала задание выдам.</p></blockquote>
+<p>Для начала, даю установку — буферов вывода в PHP несколько, плюс ещё 
+модули web-сервера могут выполнять буферизацию, да ещё и браузеры могут 
+играться с выводом и не сразу отображать полученный результат (надо бы 
+тут освежить память, а то за упоминание Netscape могут освежевать). </p>
+<p>Вот теперь буду рассказывать о буферизации в PHP.</p>
+<h3>Пользовательский буфер вывода</h3>
+<p>Работа с буфером вывода начинается с функции <code><a href="http://php.net/function.ob-start">ob_start()</a></code>
+ — у данной функции есть три опциональных параметра, но о них я расскажу
+ чуть позже, а пока запоминаем — для включения буфера вывода используем 
+функцию <code>ob_start()</code>:</p>
+<div><div id="highlighter_420753" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php comments">// включаем буфер</code></div><div class="line number2 index1 alt1"><code class="php plain">ob_start();</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="php comments">// этот, и весь последующий вывод, будет попадать в буфер вывода</code></div><div class="line number5 index4 alt2"><code class="php functions">echo</code> <code class="php string">"hello world"</code><code class="php plain">;</code></div></div></td></tr></tbody></table></div></div>
+<p>Если же нам надо сохранить данные, или ещё как обработать вывод то нам потребуется функция <code><a href="http://php.net/function.ob-get-contents">ob_get_contents()</a></code>. Сохранив данные, можно очистить и отключить буфер — для этого воспользуемся функцией <code><a href="http://php.net/function.ob-end-clean">ob_end_clean()</a></code>, если свести всё перечисленное до кучи, то в результате получим следующий код:</p>
+<div><div id="highlighter_123361" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php comments">// включаем буфер</code></div><div class="line number2 index1 alt1"><code class="php plain">ob_start();</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="php comments">// выводим информацию</code></div><div class="line number5 index4 alt2"><code class="php functions">echo</code> <code class="php string">"hello world"</code><code class="php plain">;</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php comments">// сохраняем всё что есть в буфере в переменную $content</code></div><div class="line number8 index7 alt1"><code class="php variable">$content</code> <code class="php plain">= ob_get_contents();</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="php comments">// отключаем и очищаем буфер</code></div><div class="line number11 index10 alt2"><code class="php plain">ob_end_clean();</code></div></div></td></tr></tbody></table></div></div>
+<blockquote><p>Практически все нужные нам функции имеют префикс «ob_», как не трудно догадаться это сокращение от «output buffer»</p></blockquote>
+<p>Функцию <code>ob_get_contents()</code> можно вызывать множество раз, на практике с таким не сталкивался:</p>
+<div><div id="highlighter_538024" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php comments">// включаем буфер</code></div><div class="line number2 index1 alt1"><code class="php plain">ob_start();</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="php comments">// выводим информацию</code></div><div class="line number5 index4 alt2"><code class="php functions">echo</code> <code class="php string">"hello "</code><code class="php plain">;</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php comments">// сохраняем всё что есть в буфере в переменную</code></div><div class="line number8 index7 alt1"><code class="php comments">// на данный момент там только `hello `</code></div><div class="line number9 index8 alt2"><code class="php variable">$a</code> <code class="php plain">= ob_get_contents();</code></div><div class="line number10 index9 alt1">&nbsp;</div><div class="line number11 index10 alt2"><code class="php comments">// выводим информацию</code></div><div class="line number12 index11 alt1"><code class="php functions">echo</code> <code class="php string">"world "</code><code class="php plain">;</code></div><div class="line number13 index12 alt2">&nbsp;</div><div class="line number14 index13 alt1"><code class="php comments">// повторный вызов</code></div><div class="line number15 index14 alt2"><code class="php comments">// теперь буфер содержит `hello world `</code></div><div class="line number16 index15 alt1"><code class="php variable">$b</code> <code class="php plain">= ob_get_contents();</code></div></div></td></tr></tbody></table></div></div>
+<blockquote><p>Если вы стартанули буфер вывода, но по какой-то причине 
+не закрыли его, то PHP это сделает за вас и в конце работы скрипта 
+выполнит «сброс» буфера вывода в браузер пользователя</p></blockquote>
+<p>Если внутри блока <code>ob_start</code> – <code>ob_end</code> вы отправляете заголовок, то он не попадает в буфер, а сразу будет отправлен в браузер:</p>
+<div><div id="highlighter_353057" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">header(</code><code class="php string">"OB-START: 1"</code><code class="php plain">);</code></div><div class="line number2 index1 alt1"><code class="php plain">ob_start();</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="php functions">echo</code> <code class="php string">"Never saw"</code><code class="php plain">;</code></div><div class="line number5 index4 alt2"><code class="php plain">header(</code><code class="php string">"PHP-VERSION: "</code><code class="php plain">. PHP_VERSION);</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php plain">ob_end_clean();</code></div><div class="line number8 index7 alt1"><code class="php plain">header(</code><code class="php string">"OB-END: 1"</code><code class="php plain">);</code></div></div></td></tr></tbody></table></div></div>
+<p>В результате выполнения данного кода в http-пакете появятся следующие заголовки:</p>
+<div><div id="highlighter_662440" class="syntaxhighlighter  plain"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain plain">OB-START: 1</code></div><div class="line number2 index1 alt1"><code class="plain plain">PHP-VERSION: 5.6.11-1+deb.sury.org~trusty+1</code></div><div class="line number3 index2 alt2"><code class="plain plain">OB-END: 1</code></div></div></td></tr></tbody></table></div></div>
+<p>Естественно, данный код больше ничего не выводит, будет пустая страница. </p>
+<p>Данное правило по отправке заголовков верно как для непосредственного вызова функции <code>header()</code>, так и для неявного при вызове <code>session_start()</code>:</p>
+<div><div id="highlighter_131262" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">ob_start();</code></div><div class="line number2 index1 alt1"><code class="php plain">{</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php string">"hello world"</code><code class="php plain">;</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">session_start();&nbsp; </code><code class="php comments">// тут всё будет работать корректно</code></div><div class="line number5 index4 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php variable">$content</code> <code class="php plain">= ob_get_contents();</code></div><div class="line number6 index5 alt1"><code class="php plain">}</code></div><div class="line number7 index6 alt2"><code class="php plain">ob_end_clean();</code></div><div class="line number8 index7 alt1"><code class="php functions">echo</code> <code class="php string">"&lt;h1&gt;"</code><code class="php plain">.</code><code class="php variable">$content</code><code class="php plain">.</code><code class="php string">"&lt;/h1&gt;"</code><code class="php plain">;</code></div></div></td></tr></tbody></table></div></div>
+<blockquote><p>Перед вами небольшой life-hack – в PHP вы можете использовать скобочки <code>{}</code> для выделения некой логики в блоки, при этом никакой функциональной нагрузки они не несут, а вот читаемость кода – повышают</p></blockquote>
+<p>Чуть-чуть прояснили ситуацию — теперь в копилке наших знаний есть 
+информация о том, как включить буфер, как получить из него данные, и как
+ выключить. Что ещё интересное можно с ним вытворять? Да с ним 
+практически ничего толком и не сделать — его можно отправить (сбросить) в
+ браузер (ключевое слово flush), очистить (clean), отключить (end). Ну и
+ скомбинировать это всё до кучи тоже можно:</p>
+<ul>
+<li><code>ob_clean()</code> — читаем название функции как «очищаем буфер вывода»</li>
+<li><code>ob_flush()</code> — «отправляем буфер вывода»</li>
+<li><code>ob_end_clean()</code> — «буфер вывода отключаем и очищаем»</li>
+<li><code>ob_end_flush()</code> — «буфер вывода отключаем и отправляем в браузер»</li>
+<li><code>ob_get_clean()</code> — «получаем буфер вывода, очищаем и отключаем» — тут небольшой отступление от правила, эта функция должна именоваться как <code>ob_get_end_clean()</code>, но решили упростить, и выкинули <code>end</code></li>
+<li><code>ob_get_flush()</code> — «отправляем буфер вывода, очищаем и отключаем», <code>ob_get_<del datetime="2016-08-08T14:01:20+00:00">end</del>_flush()</code></li>
+</ul>
+<blockquote><p>Что можно из перечисленного делать с буфером вывода, определяется третьим опциональным параметром <code>$flags</code> при вызове функции <code>ob_start()</code>, используется крайне редко</p></blockquote>
+<p>Для простого запоминания вот вам наглядная табличка по данному семейству функций:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>вернёт</th>
+<th>очистит</th>
+<th>отправит</th>
+<th>отключит</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>ob_get_contents</th>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<th>ob_clean</th>
+<td align="center"></td>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<th>ob_flush</th>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">X</td>
+<td align="center"></td>
+</tr>
+<tr>
+<th>ob_end_clean</th>
+<td align="center"></td>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center">X</td>
+</tr>
+<tr>
+<th>ob_end_flush</th>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">X</td>
+<td align="center">X</td>
+</tr>
+<tr>
+<th>ob_get_clean</th>
+<td align="center">X</td>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center">X</td>
+</tr>
+<tr>
+<th>ob_get_flush</th>
+<td align="center">X</td>
+<td align="center"></td>
+<td align="center">X</td>
+<td align="center">X</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Задание</strong><br>
+Дополните приведенный ниже код вызовом одной функции, чтобы он корректно вывел «hello world»:</p>
+<div><div id="highlighter_148403" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">ob_start();</code></div><div class="line number2 index1 alt1"><code class="php plain">{</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php string">"hello"</code><code class="php plain">;</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php variable">$a</code> <code class="php plain">= ob_get_contents();</code></div><div class="line number5 index4 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php string">"world"</code><code class="php plain">;</code></div><div class="line number6 index5 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php variable">$b</code> <code class="php plain">= ob_get_contents();</code></div><div class="line number7 index6 alt2"><code class="php plain">}</code></div><div class="line number8 index7 alt1"><code class="php plain">ob_end_clean();</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="php functions">echo</code> <code class="php variable">$a</code> <code class="php plain">.</code><code class="php string">' '</code><code class="php plain">. </code><code class="php variable">$b</code><code class="php plain">;</code></div></div></td></tr></tbody></table></div></div>
+<h4>Обработчик буфера</h4>
+<p>Пора вернуться к функции <code>ob_start()</code> и её первому параметру — <code>$output_callback</code>
+ — обработчик буфера вывода. В качестве обработчика буфера должна быть 
+указана callback-функция, которая принимает содержимое буфера как 
+входной параметр и должна вернуть строку после обработки:</p>
+<div><div id="highlighter_81623" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php comments">/**</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;</code><code class="php comments">* @param&nbsp; string&nbsp; $buffer Содержимое буфера</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;</code><code class="php comments">* @param&nbsp; integer $phase&nbsp; Битовая маска из значений PHP_OUTPUT_HANDLER_*</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;</code><code class="php comments">* @return string</code></div><div class="line number5 index4 alt2"><code class="php spaces">&nbsp;</code><code class="php comments">*/</code></div><div class="line number6 index5 alt1"><code class="php keyword">function</code> <code class="php plain">ob_handler (</code><code class="php variable">$buffer</code><code class="php plain">, </code><code class="php variable">$phase</code><code class="php plain">) {</code></div><div class="line number7 index6 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php keyword">return</code> <code class="php string">"Length of string '$buffer' is "</code><code class="php plain">. </code><code class="php functions">strlen</code><code class="php plain">(</code><code class="php variable">$buffer</code><code class="php plain">);</code></div><div class="line number8 index7 alt1"><code class="php plain">}</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="php plain">ob_start(</code><code class="php string">'ob_handler'</code><code class="php plain">);</code></div><div class="line number11 index10 alt2"><code class="php functions">echo</code> <code class="php string">"hello world"</code><code class="php plain">;</code></div><div class="line number12 index11 alt1"><code class="php plain">ob_end_flush();</code></div></div></td></tr></tbody></table></div></div>
+<p>В данном примере функция обработчик вернёт строку «Length of string ‘hello world’ is 11».</p>
+<blockquote><p>Важный момент — с этими функциями нужно быть 
+поосторожней, обработали строки и ладненько, но не пытайтесь вывести 
+либо сохранить данные, не пытайтесь стартовать другой буфер вывода 
+внутри функции, и да есть функции которые создают буфер вывода внутри 
+себя, вот <code>print_r()</code> и <code>highlight_file()</code> тому пример</p></blockquote>
+<p>Из стандартных же обработчиков можете повстречать <a href="http://php.net/function.ob-gzhandler">ob_gzhandler()</a>, но лучше сжатие страничек оставлять на плечах web-сервера, и не вешать это на PHP.</p>
+<blockquote><p>Ещё момент, второй параметр <code>$phase</code> callback-функции может включать в себя флаги из семейства <code>PHP_OUTPUT_HANDLER_*</code>, но вам эта информация никогда не понадобится, я даже пример не смог придумать, зачем оно надо.</p></blockquote>
+<h4>We need to go deeper©</h4>
+<p><img src="inception-460x226.jpg" alt="Inception" class="aligncenter size-medium wp-image-2933" srcset="https://anton.shevchuk.name/wp-content/uploads/2016/03/inception-460x226.jpg 460w, https://anton.shevchuk.name/wp-content/uploads/2016/03/inception.jpg 600w" sizes="(max-width: 460px) 100vw, 460px" height="226" width="460"></p>
+<p>У буфера вывода есть килер-фича – внутри буфера можно стартовать ещё 
+один буфер, а внутри нового ещё и так далее (пока памяти хватает):</p>
+<div><div id="highlighter_242608" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php functions">echo</code> <code class="php plain">ob_get_level();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="php comments">// 1</code></div><div class="line number2 index1 alt1"><code class="php plain">ob_start();</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php plain">ob_get_level();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="php comments">// 2</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">ob_start();</code></div><div class="line number5 index4 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php plain">ob_get_level();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="php comments">// 3</code></div><div class="line number6 index5 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">ob_start();</code></div><div class="line number7 index6 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php plain">ob_get_level();&nbsp; </code><code class="php comments">// 4</code></div><div class="line number8 index7 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">ob_end_flush();</code></div><div class="line number9 index8 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">ob_end_flush();</code></div><div class="line number10 index9 alt1"><code class="php plain">ob_end_flush();</code></div></div></td></tr></tbody></table></div></div>
+<p>В данном примере функция <code>ob_flush()</code> и производные от неё, будут «выбрасывать» содержимое буфера на более высокий уровень.</p>
+<p>Данный подход поможет в случае, когда вам нужно подключить сторонний 
+код, а он вдруг может что-то взять и вывести — было бы разумно обернуть 
+его вывод в буфер, даже если весь ваш код уже обёрнут в другой буфер.</p>
+<p>Если вы не знаете точно на какой «глубине» находитесь – то воспользуйтесь функцией <a href="http://php.net/function.ob-get-level">ob_get_level()</a>, а чтобы «проснуться» вам пригодится следующий код:</p>
+<div><div id="highlighter_853365" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php keyword">while</code> <code class="php plain">(ob_get_level()) {</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">ob_end_clean();</code></div><div class="line number3 index2 alt2"><code class="php plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p><strong>Задание</strong><br>
+Внесите изменения в код с вложенными вызовами <code>ob_start()</code> таким образом, чтобы цифры выводились в обратном порядке, для этого надо переставить три строчки кода.</p>
+<h3>Буфер «по умолчанию»</h3>
+<p>Если захотите создать обёртку над всем кодом, то для этого можно 
+воспользоваться решением «из коробки» — буфер вывода «по умолчанию», за 
+активацию оного отвечает директива <a href="http://php.net/outcontrol.configuration#ini.output-buffering">output_buffering</a>, её можно выставить как в <code>On</code>,
+ так и указать размер буфера который нам потребуется (при достижении 
+лимита, буфер будет отправлен в браузер пользователю). Данная директива 
+должна быть проставлена либо в php.ini, либо в .htaccess (для апача), 
+попытка выставить данное значение с использование <code>ini_set()</code> ни к чему не приведёт, т.к. PHP уже стартанул, и буфер вывода уже сконфигурирован согласно настроек:</p>
+<div><div id="highlighter_375560" class="syntaxhighlighter  plain"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><caption>.htaccess</caption><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain plain">php_value output_buffering 4096</code></div></div></td></tr></tbody></table></div></div>
+<p>Если при включенном буфере проверить уровень вложенности и вызвать функцию <code>ob_get_level()</code>, то получим 1:</p>
+<div><div id="highlighter_965189" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php keyword">if</code> <code class="php plain">(</code><code class="php functions">ini_get</code><code class="php plain">(</code><code class="php string">'output_buffering'</code><code class="php plain">)) {</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php plain">ob_get_level(); </code><code class="php comments">// 1</code></div><div class="line number3 index2 alt2"><code class="php plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>Т.е. если включить данный буфер, то можно будет избежать ошибок вида 
+«headers already sent»? Да, пока буфера хватит, но никогда так не 
+делайте, ведь понадеявшись на данный метод, вы фактически заложите бомбу
+ замедленного действия, и неизвестно когда она «рванёт» и посыпит 
+ошибками:</p>
+<div><div id="highlighter_464269" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php comments">// сохраняем значение буфера</code></div><div class="line number2 index1 alt1"><code class="php variable">$buffer</code> <code class="php plain">= </code><code class="php functions">ini_get</code><code class="php plain">(</code><code class="php string">'output_buffering'</code><code class="php plain">);</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="php comments">// "выводим" текст на байт меньше буфера</code></div><div class="line number5 index4 alt2"><code class="php functions">echo</code> <code class="php functions">str_pad</code><code class="php plain">(</code><code class="php string">''</code><code class="php plain">, </code><code class="php variable">$buffer</code> <code class="php plain">- 1);</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php comments">// отправляем заголовок</code></div><div class="line number8 index7 alt1"><code class="php plain">header(</code><code class="php string">"TAG-A: "</code><code class="php plain">. PHP_VERSION);</code></div><div class="line number9 index8 alt2">&nbsp;</div><div class="line number10 index9 alt1"><code class="php comments">// ещё байт</code></div><div class="line number11 index10 alt2"><code class="php functions">echo</code> <code class="php string">" "</code><code class="php plain">;</code></div><div class="line number12 index11 alt1">&nbsp;</div><div class="line number13 index12 alt2"><code class="php comments">// а второй заголовок уже не отправляется</code></div><div class="line number14 index13 alt1"><code class="php comments">// получите ошибку</code></div><div class="line number15 index14 alt2"><code class="php plain">header(</code><code class="php string">"TAG-B: "</code><code class="php plain">. PHP_VERSION);</code></div></div></td></tr></tbody></table></div></div>
+<blockquote><p>Запомните, для CLI приложений директива <code>output_buffering</code> всегда 0, т.е. данный буфер отключен</p></blockquote>
+<h4>Зачем это всё?</h4>
+<p>Хороший вопрос — зачем нужна работа с буфером вывода? Приведу несколько основных сценариев использования:</p>
+<ol>
+<li>Сжатие передаваемых данных — с использованием уже упомянутой <code>ob_gzhandler()</code></li>
+<li>Отложенный вывод, чтобы избежать ошибки «headers already sent» (о данной ошибке подробно рассказано в статье <a href="http://anton.shevchuk.name/php/php-for-beginners-session/">Сессия</a>)</li>
+<li>Работа с чужим кодом, который пытается самостоятельно что-то выводить</li>
+<li>Работа с HTML файлами: когда вам надо подключать текстовый файл (обычно речь о HTML), для дальнейшей работы с его содержимым</li>
+</ol>
+<blockquote><p>Сценарий обработки ошибок в подключаемых файлах — 
+стартуете буфер, подключаете файлы, если что-то пошло не так, то 
+содержимое буфера можно скинуть, и вместо неинформативного сообщения об 
+ошибке, выводите не менее информативное сообщение, что сервер приболел, и
+ не может больше ничего.<br>
+Пример работы с критическими ошибками вы можете найти в статье <a href="http://anton.shevchuk.name/php/php-for-beginners-error-handling/">Обработка ошибок</a>, и там тоже упоминается буфер вывода, ох видать всё это ж-ж-ж неспроста</p></blockquote>
+<h3>Системный буфер вывода</h3>
+<p>С пользовательским буфером вывода разобрались, давайте теперь к 
+системному перейдём — это такой буфер вывода, который наполняется по 
+ходу выполнения скрипта, и отправляется в браузер по окончанию 
+выполнения. Т.е. данный буфер вывода есть всегда, его не нужно 
+создавать, но мы можем им управлять.</p>
+<p>Вот так всё просто и кратко, ну а теперь о нюансах управления системным буфером вывода…</p>
+<h3>Royal flush</h3>
+<p>10 секунд вашего внимания…</p>
+<p><img src="flush.gif" alt="Flush it!" class="aligncenter size-full wp-image-2949" height="120" width="480"></p>
+<p>А теперь из академического интереса давайте рассмотрим реализацию 
+данного «экшена» – там совсем чуть-чуть кода, и небольшая горстка 
+полезных знаний по PHP:</p>
+<div><div id="highlighter_631147" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php functions">echo</code> <code class="php string">"&lt;h3&gt;Please waiting for 10 seconds...&lt;/h3&gt;"</code><code class="php plain">;</code></div><div class="line number2 index1 alt1">&nbsp;</div><div class="line number3 index2 alt2"><code class="php keyword">for</code> <code class="php plain">(</code><code class="php variable">$i</code> <code class="php plain">= 1; </code><code class="php variable">$i</code> <code class="php plain">&lt;= 10; </code><code class="php variable">$i</code><code class="php plain">++) {</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php variable">$i</code><code class="php plain">;</code></div><div class="line number5 index4 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">flush</code><code class="php plain">();</code></div><div class="line number6 index5 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">sleep(1);</code></div><div class="line number7 index6 alt2"><code class="php plain">}</code></div><div class="line number8 index7 alt1">&nbsp;</div><div class="line number9 index8 alt2"><code class="php functions">echo</code> <code class="php string">"&lt;h3&gt;Thx!&lt;/h3&gt;"</code><code class="php plain">;</code></div></div></td></tr></tbody></table></div></div>
+<p>Сразу бросается в глаза вызов функции <code><a href="http://php.net/function.flush">flush()</a></code>
+ — вызвав данную функцию вы даёте указание PHP «сбросить» системный 
+буфер, т.е. отправить всё что там есть в браузер пользователю (но 
+учтите, если у вас стартован пользовательский буфер, то для начала надо 
+будет «сбросить» его, и уже потом вызвать <code>flush()</code>). Т.е. происходящее можно описать как:</p>
+<div><div id="highlighter_785733" class="syntaxhighlighter  plain"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain plain">цикл на 10 итераций:</code></div><div class="line number2 index1 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">- выводим число, вывод попадает в системный буфер</code></div><div class="line number3 index2 alt2"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">- отправляем буфер пользователю в браузер</code></div><div class="line number4 index3 alt1"><code class="plain spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain plain">- ждём секунду</code></div></div></td></tr></tbody></table></div></div>
+<p>Ещё одна особенность, о которой нужно помнить — директива <a href="http://php.net/outcontrol.configuration#ini.implicit-flush">implicit_flush</a>, отвечает за то, чтобы после каждого вывода автоматически вызывался <code>flush()</code>, поэтому следующая комбинация сработает аналогично предыдущему примеру:</p>
+<div><div id="highlighter_369074" class="syntaxhighlighter  plain"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><caption>.htaccess</caption><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain plain">php_flag implicit_flush on</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_789491" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php keyword">for</code> <code class="php plain">(</code><code class="php variable">$i</code> <code class="php plain">= 1; </code><code class="php variable">$i</code> <code class="php plain">&lt;= 10; </code><code class="php variable">$i</code><code class="php plain">++) {</code></div><div class="line number2 index1 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php variable">$i</code><code class="php plain">;</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">sleep(1);</code></div><div class="line number4 index3 alt1"><code class="php plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>Данную директиву можно изменять «на лету», для этого достаточно вызвать функцию <a href="http://php.net/function.ob-implicit-flush">ob_implicit_flush()</a> (удивительное рядом, данную функцию стоило всё же назвать <code>implicit_flush()</code>, т.к. к пользовательскому буферу вывода она имеет опосредственное отношение — после вызова <code>ob_flush()</code> будет вызван <code>flush()</code>):</p>
+<div><div id="highlighter_557812" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php plain">ob_implicit_flush();</code></div><div class="line number2 index1 alt1"><code class="php keyword">for</code> <code class="php plain">(</code><code class="php variable">$i</code> <code class="php plain">= 1; </code><code class="php variable">$i</code> <code class="php plain">&lt;= 10; </code><code class="php variable">$i</code><code class="php plain">++) {</code></div><div class="line number3 index2 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php functions">echo</code> <code class="php variable">$i</code><code class="php plain">;</code></div><div class="line number4 index3 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php plain">sleep(1);</code></div><div class="line number5 index4 alt2"><code class="php plain">}</code></div></div></td></tr></tbody></table></div></div>
+<blockquote><p>Данные примеры работают только при выключенном <code>output_buffering</code>, иначе вам нужно будет его принудительно выключить и очистить в самом скрипте. Если же вы работаете в CLI, то знайте <code>implicit_flush</code> всегда включён, а <code>output_buffering</code> выключен, следовательно весь вывод будет без промедления попадать в консоль</p></blockquote>
+<p><strong>Задание</strong></p>
+<blockquote><p>Для выполнения данного задания вам потребуется освежить знания по <a href="http://anton.shevchuk.name/php/php-for-beginners-include-files/">подключению файлов</a></p></blockquote>
+<p>Для закрепления изученного материала, вам нужно реализовать простейший шаблонизатор, который оживит следующий код:</p>
+<div><div id="highlighter_590977" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php variable">$header</code> <code class="php plain">= template(</code><code class="php string">'header'</code><code class="php plain">, [</code><code class="php string">'title'</code> <code class="php plain">=&gt; </code><code class="php string">'Hello World!'</code><code class="php plain">]);</code></div><div class="line number2 index1 alt1"><code class="php variable">$content</code> <code class="php plain">= template(</code><code class="php string">'content'</code><code class="php plain">, [</code><code class="php string">'content'</code> <code class="php plain">=&gt; </code><code class="php string">"Lorem ipsum..."</code><code class="php plain">, </code><code class="php string">'meta'</code> <code class="php plain">=&gt; </code><code class="php string">'Author info'</code><code class="php plain">]);</code></div><div class="line number3 index2 alt2"><code class="php variable">$footer</code> <code class="php plain">= template(</code><code class="php string">'footer'</code><code class="php plain">, [</code><code class="php string">'copy'</code> <code class="php plain">=&gt; </code><code class="php string">"Copyright "</code><code class="php plain">. </code><code class="php functions">date</code><code class="php plain">(</code><code class="php string">'Y'</code><code class="php plain">)]);</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="php comments">// ...skipped logic</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php functions">echo</code> <code class="php variable">$header</code><code class="php plain">, </code><code class="php variable">$content</code><code class="php plain">, </code><code class="php variable">$footer</code><code class="php plain">;</code></div><div class="line number8 index7 alt1">&nbsp;</div><div class="line number9 index8 alt2"><code class="php comments">/**</code></div><div class="line number10 index9 alt1"><code class="php spaces">&nbsp;</code><code class="php comments">* @param&nbsp; string $template</code></div><div class="line number11 index10 alt2"><code class="php spaces">&nbsp;</code><code class="php comments">* @param&nbsp; array&nbsp; $vars</code></div><div class="line number12 index11 alt1"><code class="php spaces">&nbsp;</code><code class="php comments">* @return string</code></div><div class="line number13 index12 alt2"><code class="php spaces">&nbsp;</code><code class="php comments">*/</code></div><div class="line number14 index13 alt1"><code class="php keyword">function</code> <code class="php plain">template(</code><code class="php variable">$template</code><code class="php plain">, </code><code class="php variable">$vars</code><code class="php plain">) {</code></div><div class="line number15 index14 alt2"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php comments">// place your code here</code></div><div class="line number16 index15 alt1"><code class="php spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="php comments">// ...</code></div><div class="line number17 index16 alt2"><code class="php plain">}</code></div></div></td></tr></tbody></table></div></div>
+<p>Файлы шаблонов:</p>
+<div><div id="highlighter_296795" class="syntaxhighlighter  xml"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">01</div><div class="line number2 index1 alt1">02</div><div class="line number3 index2 alt2">03</div><div class="line number4 index3 alt1">04</div><div class="line number5 index4 alt2">05</div><div class="line number6 index5 alt1">06</div><div class="line number7 index6 alt2">07</div><div class="line number8 index7 alt1">08</div><div class="line number9 index8 alt2">09</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="xml comments">&lt;!-- header.phtml --&gt;</code></div><div class="line number2 index1 alt1"><code class="xml plain">&lt;!</code><code class="xml keyword">DOCTYPE</code> <code class="xml plain">html&gt;</code></div><div class="line number3 index2 alt2"><code class="xml plain">&lt;</code><code class="xml keyword">html</code> <code class="xml color1">lang</code><code class="xml plain">=</code><code class="xml string">"en"</code><code class="xml plain">&gt;</code></div><div class="line number4 index3 alt1"><code class="xml plain">&lt;</code><code class="xml keyword">head</code><code class="xml plain">&gt;</code></div><div class="line number5 index4 alt2"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">meta</code> <code class="xml color1">charset</code><code class="xml plain">=</code><code class="xml string">"utf-8"</code><code class="xml plain">&gt;</code></div><div class="line number6 index5 alt1"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">meta</code> <code class="xml color1">http-equiv</code><code class="xml plain">=</code><code class="xml string">"X-UA-Compatible"</code> <code class="xml color1">content</code><code class="xml plain">=</code><code class="xml string">"IE=edge"</code><code class="xml plain">&gt;</code></div><div class="line number7 index6 alt2"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">meta</code> <code class="xml color1">name</code><code class="xml plain">=</code><code class="xml string">"viewport"</code> <code class="xml color1">content</code><code class="xml plain">=</code><code class="xml string">"width=device-width, initial-scale=1"</code><code class="xml plain">&gt;</code></div><div class="line number8 index7 alt1"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">title</code><code class="xml plain">&gt;&lt;?=$title?&gt;&lt;/</code><code class="xml keyword">title</code><code class="xml plain">&gt;</code></div><div class="line number9 index8 alt2"><code class="xml plain">&lt;/</code><code class="xml keyword">head</code><code class="xml plain">&gt;</code></div><div class="line number10 index9 alt1"><code class="xml plain">&lt;</code><code class="xml keyword">body</code><code class="xml plain">&gt;</code></div><div class="line number11 index10 alt2"><code class="xml comments">&lt;!-- content.phtml --&gt;</code></div><div class="line number12 index11 alt1"><code class="xml plain">&lt;</code><code class="xml keyword">div</code> <code class="xml color1">class</code><code class="xml plain">=</code><code class="xml string">"container"</code><code class="xml plain">&gt;</code></div><div class="line number13 index12 alt2"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">p</code><code class="xml plain">&gt;&lt;?=$content?&gt;&lt;/</code><code class="xml keyword">p</code><code class="xml plain">&gt;</code></div><div class="line number14 index13 alt1"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;</code><code class="xml keyword">p</code><code class="xml plain">&gt;&lt;?=$meta?&gt;&lt;/</code><code class="xml keyword">p</code><code class="xml plain">&gt;</code></div><div class="line number15 index14 alt2"><code class="xml plain">&lt;/</code><code class="xml keyword">div</code><code class="xml plain">&gt;</code></div><div class="line number16 index15 alt1"><code class="xml comments">&lt;!-- footer.phtml --&gt;</code></div><div class="line number17 index16 alt2"><code class="xml plain">&lt;</code><code class="xml keyword">footer</code><code class="xml plain">&gt;</code></div><div class="line number18 index17 alt1"><code class="xml spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="xml plain">&lt;?=$copy?&gt;</code></div><div class="line number19 index18 alt2"><code class="xml plain">&lt;/</code><code class="xml keyword">footer</code><code class="xml plain">&gt;</code></div><div class="line number20 index19 alt1"><code class="xml plain">&lt;/</code><code class="xml keyword">body</code><code class="xml plain">&gt;</code></div><div class="line number21 index20 alt2"><code class="xml plain">&lt;/</code><code class="xml keyword">html</code><code class="xml plain">&gt;</code></div></div></td></tr></tbody></table></div></div>
+<p>Дерзайте!</p>
+<h3>Рекомендованная литература</h3>
+<ul>
+<li>Хардкорно про буфер вывода в статье <a href="http://jpauli.github.io/2014/12/19/php-output-buffer-in-deep.html">PHP output buffer in deep</a> (перевод <a href="https://habrahabr.ru/company/mailru/blog/248573/">Буфер вывода в PHP</a>)</li>
+<li>Ссылка на официальное руководство по <a href="http://php.net/outcontrol.configuration">настройка php.ini</a></li>
+<li>Статья <a href="https://www.sitepoint.com/php-streaming-output-buffering-explained/">Streaming and Output Buffering</a></li>
+</ul>
+<h3>В заключение</h3>
+<p>К теме буферизации вы ещё не раз вернётесь во время работы над PHP 
+проектами, и поверьте, нужно знать и понимать на каком этапе «застрял» 
+ваш вывод, чтобы не тратить время зря на диагностику работающего кода, а
+ переходить непосредственно к причинам возникновения проблем.</p>
+    <footer>
+    <time datetime="2016-08-15">August 15, 2016</time>
+    |
+    Теги: <a href="https://anton.shevchuk.name/tag/education/" rel="tag">Education</a> |    <a href="https://anton.shevchuk.name/php/php-for-beginners-output-buffer/#comments" class="comments-link">11 комментариев »</a></footer>
+  </article>
+    <section id="comments">    <ol class="commentlist" cpage="1">
+            <li class="comment even thread-even depth-1" id="li-comment-258163">
+        <div id="div-comment-258163">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/c49eca88f04cdb2740421ccaca1c9305?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/c49eca88f04cdb2740421ccaca1c9305?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">loz</cite> <em class="date">August 19, 2016</em>
+                                <p>Спасибо за труд, но в статье совсем 
+не описано в чем разница между пользовательским буфером и системным. 
+После прочтения у меня осталось впечетление отсутствия полноты картини 
+по изложеному материалу. Это все, конечно, можно найти в документации, 
+но как по мне материал должен быть самодостаточным, чтобы не портить 
+удовольствия при чтении, так буде пожалуй кошернее. :)</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258163', '258163', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="li-comment-258164">
+        <div id="div-comment-258164">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/ea4139df8a4d0b30b65135dba2a9d397?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/ea4139df8a4d0b30b65135dba2a9d397?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn"><a href="http://anton.shevchuk.name/" rel="external nofollow ugc" class="url">Anton Shevchuk</a></cite> <em class="date">August 19, 2016</em>
+                                <p>Хорошо, надо будет подумать как сформировать целостную картину.</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258164', '258164', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="li-comment-258168">
+        <div id="div-comment-258168">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/d2b6dcd6409c5a4ed544f79196c7f4fd?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/d2b6dcd6409c5a4ed544f79196c7f4fd?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">Maksim</cite> <em class="date">August 30, 2016</em>
+                                <p>Это все хорошо только для случаев 
+когда надо “обернуть” чужой код, за все остальное.. вложенность.. 
+внезапные “смывы” руки бы оборвать.. видел этот буфер только в одном 
+проекте.. он был образцом говнокодинга. Не пойму зачем в любом 
+нормальном фреймворке это может понадобится.</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258168', '258168', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="li-comment-258172">
+        <div id="div-comment-258172">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/a2112969d607627d390586ab99f78d43?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/a2112969d607627d390586ab99f78d43?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">Стас</cite> <em class="date">September 15, 2016</em>
+                                <p>Я буфер использую для дебага, так как
+ существующие средства очень неудобны. var_dump криво работает при 
+выводе в верстку страницы, а иногда надо вывести много данных.</p>
+<p>Пример</p>
+<div><div id="highlighter_931659" class="syntaxhighlighter  php"><div class="toolbar"><span><a href="#" class="toolbar_item command_help help">?</a></span></div><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="php variable">$log_dir</code><code class="php plain">=</code><code class="php string">'_debug_log'</code><code class="php plain">;</code></div><div class="line number2 index1 alt1"><code class="php keyword">if</code> <code class="php plain">(!</code><code class="php functions">file_exists</code><code class="php plain">(</code><code class="php variable">$log_dir</code><code class="php plain">)) </code><code class="php functions">mkdir</code><code class="php plain">(</code><code class="php variable">$log_dir</code><code class="php plain">,0777, true);</code></div><div class="line number3 index2 alt2"><code class="php plain">ob_start();</code></div><div class="line number4 index3 alt1">&nbsp;</div><div class="line number5 index4 alt2"><code class="php plain">print_r(</code><code class="php variable">$selected_items</code><code class="php plain">);</code></div><div class="line number6 index5 alt1">&nbsp;</div><div class="line number7 index6 alt2"><code class="php variable">$o</code><code class="php plain">=ob_get_clean();</code></div><div class="line number8 index7 alt1"><code class="php functions">file_put_contents</code><code class="php plain">(</code><code class="php variable">$log_dir</code> <code class="php plain">. </code><code class="php string">'/'</code> <code class="php plain">.</code><code class="php constants">__FUNCTION__</code><code class="php plain">.</code><code class="php string">'.txt'</code><code class="php plain">,</code><code class="php variable">$o</code><code class="php plain">) ;</code></div></div></td></tr></tbody></table></div></div>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258172', '258172', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    <ul class="children">
+    <li class="comment even depth-2" id="li-comment-258203">
+        <div id="div-comment-258203">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/c2a5251f01f62cf5cd824c9b4e193b8b?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/c2a5251f01f62cf5cd824c9b4e193b8b?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">Aleksey</cite> <em class="date">November 10, 2016</em>
+                                <p>xDebug попробуй<br>
+Хотя если это дебаг на прод-сервере ( что не очень хорошо ), то имеет право на жизнь…</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258203', '258203', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-258193">
+        <div id="div-comment-258193">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/987d0541b06dc44a5d95d817f7f3279b?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/987d0541b06dc44a5d95d817f7f3279b?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">Denis</cite> <em class="date">October 27, 2016</em>
+                                <p>Здорово!) Спасибо!)</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258193', '258193', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="li-comment-258292">
+        <div id="div-comment-258292">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/9452909955d39948a480d97d77ce54b4?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/9452909955d39948a480d97d77ce54b4?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn"><a href="http://cccp-blog.com/" rel="external nofollow ugc" class="url">Pashaster</a></cite> <em class="date">May 16, 2017</em>
+                                <p>Спасибо за статью) Помогла разобраться с буферизацией.</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258292', '258292', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-258334">
+        <div id="div-comment-258334">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/beb93ebde51e989ad11822913a9b2dcd?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/beb93ebde51e989ad11822913a9b2dcd?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">Андрей</cite> <em class="date">October 18, 2017</em>
+                                <p>Товарищи, как использовать буферизацию в последнем задании, ведь и без неё работает?</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258334', '258334', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+    <li class="pingback even thread-even depth-1" id="li-comment-258339">
+        <div id="div-comment-258339">
+            
+            <div class="comment-text">
+                <cite class="fn"><a href="https://legat.000webhostapp.com/2017/11/%d0%b1%d1%83%d1%84%d0%b5%d1%80%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d1%8f-%d0%b2%d1%8b%d0%b2%d0%be%d0%b4%d0%b0-%d0%b2-php" rel="external nofollow ugc" class="url">Буферизация вывода в php — Личный блог Артема Барановского</a></cite> <em class="date">November 14, 2017</em>
+                                <p>[…] PHP для начинающих. Буфер вывода&nbsp; […]</p>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-258383">
+        <div id="div-comment-258383">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/b79cb5334513aec285ede6107a471f0e?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/b79cb5334513aec285ede6107a471f0e?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn">DimaK</cite> <em class="date">July 22, 2018</em>
+                                <p>Не хватает ответов к заданием, без них, стать полезна только на 50%</p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258383', '258383', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor even depth-2" id="li-comment-258384">
+        <div id="div-comment-258384">
+                        <div class="comment-author">
+                <img alt="" src="https://secure.gravatar.com/avatar/ea4139df8a4d0b30b65135dba2a9d397?s=64&amp;d=mm&amp;r=pg" srcset="https://secure.gravatar.com/avatar/ea4139df8a4d0b30b65135dba2a9d397?s=128&amp;d=mm&amp;r=pg 2x" class="avatar avatar-64 photo" height="64" width="64">            </div>
+            
+            <div class="comment-text">
+                <cite class="fn"><a href="http://anton.shevchuk.name/" rel="external nofollow ugc" class="url">Anton Shevchuk</a></cite> <em class="date">July 31, 2018</em>
+                                <p>Примеры кода и “ответы” есть в репозитории <a href="https://github.com/AntonShevchuk/php-education/tree/master/buffer" rel="nofollow ugc">https://github.com/AntonShevchuk/php-education/tree/master/buffer</a></p>
+                                <span onclick="javascript:addComment.moveForm('div-comment-258384', '258384', 'respond', '2865');return false;" class="comment-reply-link">Reply</span>
+                                            </div>
+        </div>
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    </ol>
+    
+    	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://anton.shevchuk.name/?theme-future=comments&amp;p=2865#respond" style="display:none;">Cancel reply</a></small></h3><form action="https://anton.shevchuk.name/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-form-comment"><label for="comment">Comment</label> <div id="qt_comment_toolbar" class="quicktags-toolbar"><input id="qt_comment_strong" class="ed_button button button-small" value="b" type="button"><input id="qt_comment_del" class="ed_button button button-small" value="del" type="button"><input id="qt_comment_block" class="ed_button button button-small" value="quote" type="button"><input id="qt_comment_php" class="ed_button button button-small" value="PHP" type="button"><input id="qt_comment_html" class="ed_button button button-small" value="HTML" type="button"><input id="qt_comment_css" class="ed_button button button-small" value="CSS" type="button"><input id="qt_comment_js" class="ed_button button button-small" value="JS" type="button"></div><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" size="30" maxlength="245" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" size="30" maxlength="100" required="required" type="text"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" size="30" maxlength="200" type="text"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Post Comment" type="submit"> <input name="comment_post_ID" value="2865" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="0669c780c0" type="hidden"></p><p style="display: none;"><input id="ak_js" name="ak_js" value="172" type="hidden"></p></form>	</div><!-- #respond -->
+	<p class="akismet_comment_form_privacy_notice">This site uses Akismet to reduce spam. <a href="https://akismet.com/privacy/" target="_blank" rel="nofollow noopener">Learn how your comment data is processed</a>.</p></section>
+    <nav class="decor">
+      <a href="https://anton.shevchuk.name/php/php-frameworks-day-2016/" rel="prev"><span>«</span> PHP Frameworks Day 2016</a>      <a href="https://anton.shevchuk.name/php/next-step-for-senior-developer/" rel="next">Куда идёт сеньор? <span>»</span></a>  </nav>
+    <script type="text/javascript" src="shCore.js"></script>
+<script type="text/javascript" src="shBrushCss.js"></script>
+<script type="text/javascript" src="shBrushJScript.js"></script>
+<script type="text/javascript" src="shBrushPhp.js"></script>
+<script type="text/javascript" src="shBrushSql.js"></script>
+<script type="text/javascript" src="shBrushXml.js"></script>
+<link rel="stylesheet" id="syntaxhighlighter-core-css" href="shCore.css" type="text/css" media="all">
+<link rel="stylesheet" id="syntaxhighlighter-theme-default-css" href="shThemeDefault.css" type="text/css" media="all">
+</section>
+<footer>
+  <section id="nav_menu-4" class="widget widget_nav_menu"><h4>Информация</h4><div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-1723" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1723"><a href="https://anton.shevchuk.name/projects/">Проекты</a></li>
+<li id="menu-item-1722" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1722"><a href="https://anton.shevchuk.name/about/">О блоге, и обо мне</a></li>
+<li id="menu-item-1725" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1725"><a href="https://anton.shevchuk.name/wishlist/">Список желаемого</a></li>
+<li id="menu-item-3129" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3129"><a href="https://anton.shevchuk.name/php/">PHP для всех</a></li>
+<li id="menu-item-1943" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1943"><a href="https://anton.shevchuk.name/jquery/">jQuery для всех</a></li>
+<li id="menu-item-2921" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2921"><a href="https://anton.shevchuk.name/jquery-book/">jQuery для начинающих</a></li>
+</ul></div></section><section id="linkcat-81" class="widget widget_links"><h4>Проекты</h4>
+	<ul class="xoxo blogroll">
+<li><a href="http://donate.hohli.com/">Donate Progress</a></li>
+<li><a href="http://charts.hohli.com/" title="The service lets you dynamically generate charts.">Online Charts Builder</a></li>
+<li><a href="http://photo.hohli.com/" rel="me" title="PhotoBlog – Free Full-Size Photos">PhotoBlog</a></li>
+
+	</ul>
+</section>
+<section id="linkcat-2" class="widget widget_links"><h4>Блогролл</h4>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.fatalseo.com/" rel="friend" title="Рожденный быть свободным">Fatal SEO Blog</a></li>
+<li><a href="http://www.nixsolutions.com/" title="Custom Software Development from My Company">NIX Solutions Ltd.</a></li>
+<li><a href="http://voituk.kiev.ua/" title="Записки Искателей">Записки Искателей</a></li>
+<li><a href="http://cotoha.info/" rel="friend neighbor">Мысли с самого низа</a></li>
+<li><a href="http://www.fatalgame.com/" title="Прохождение игр">Прохождение игр</a></li>
+
+	</ul>
+</section>
+  <p>© Антон Шевчук 2007-2020</p>
+  <script type="text/javascript" src="shBrushPlain.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://anton.shevchuk.name/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.head.appendChild( corecss );
+		var themecssurl = "https://anton.shevchuk.name/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		document.head.appendChild( themecss );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = true;
+	SyntaxHighlighter.all();
+
+	// Infinite scroll support
+	if ( typeof( jQuery ) !== 'undefined' ) {
+		jQuery( function( $ ) {
+			$( document.body ).on( 'post-load', function() {
+				SyntaxHighlighter.highlight();
+			} );
+		} );
+	}
+</script>
+<script type="text/javascript" src="comment-reply.js"></script>
+<script type="text/javascript" src="wp-embed.js"></script>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var quicktagsL10n = {"closeAllOpenTags":"Close all open tags","closeTags":"close tags","enterURL":"Enter the URL","enterImageURL":"Enter the URL of the image","enterImageDescription":"Enter a description of the image","textdirection":"text direction","toggleTextdirection":"Toggle Editor Text Direction","dfw":"Distraction-free writing mode","strong":"Bold","strongClose":"Close bold tag","em":"Italic","emClose":"Close italic tag","link":"Insert link","blockquote":"Blockquote","blockquoteClose":"Close blockquote tag","del":"Deleted text (strikethrough)","delClose":"Close deleted text tag","ins":"Inserted text","insClose":"Close inserted text tag","image":"Insert image","ul":"Bulleted list","ulClose":"Close bulleted list tag","ol":"Numbered list","olClose":"Close numbered list tag","li":"List item","liClose":"Close list item tag","code":"Code","codeClose":"Close code tag","more":"Insert Read More tag"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="quicktags.js"></script>
+</footer>
+<div id="sidebar">
+  <section class="category">
+    <ul>
+        <li class="categories"><h4>Категории</h4><ul>	<li class="cat-item cat-item-108"><a href="https://anton.shevchuk.name/category/company/" title="О работе в компании NIX Solutions Ltd.">Company</a>
+</li>
+	<li class="cat-item cat-item-48"><a href="https://anton.shevchuk.name/category/design/" title="Веб-дизайн, интерфейсы и юзабилити">Design</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="https://anton.shevchuk.name/category/estimation/" title="Оценки проектов и рисков">Estimation</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="https://anton.shevchuk.name/category/google/" title="Сервисы Google и работа с их API">Google</a>
+</li>
+	<li class="cat-item cat-item-7"><a href="https://anton.shevchuk.name/category/html-and-css/" title="Современный HTML и CSS">HTML and CSS</a>
+</li>
+	<li class="cat-item cat-item-4"><a href="https://anton.shevchuk.name/category/internet/" title="Об Интернете и его развитии">Internet</a>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://anton.shevchuk.name/category/javascript/" title="Статьи для начинающих JavaScript разработчиков">JavaScript</a>
+</li>
+	<li class="cat-item cat-item-11"><a href="https://anton.shevchuk.name/category/my-life/" title="Всяко-разно из моей жизни">My Life</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="https://anton.shevchuk.name/category/php/" title="О PHP программировании и сопутствующих технологиях">PHP</a>
+</li>
+	<li class="cat-item cat-item-17"><a href="https://anton.shevchuk.name/category/project-management/" title="Управление проектами">Project Management</a>
+</li>
+	<li class="cat-item cat-item-13"><a href="https://anton.shevchuk.name/category/underground/" title="Всё что не касается разработки">Underground</a>
+</li>
+	<li class="cat-item cat-item-15"><a href="https://anton.shevchuk.name/category/wordpress/" title="Разработка тем и плагинов для WordPress">WordPress</a>
+</li>
+</ul></li>    </ul>
+  </section>
+  <section class="tags">
+    <h4>Теги</h4>
+    <a href="https://anton.shevchuk.name/tag/ajax/" class="tag-cloud-link tag-link-57 tag-link-position-1" style="font-size: 8.75pt;" aria-label="AJAX (4 items)">AJAX</a>
+<a href="https://anton.shevchuk.name/tag/announcement/" class="tag-cloud-link tag-link-76 tag-link-position-2" style="font-size: 13.4pt;" aria-label="Announcement (20 items)">Announcement</a>
+<a href="https://anton.shevchuk.name/tag/blog/" class="tag-cloud-link tag-link-20 tag-link-position-3" style="font-size: 10.25pt;" aria-label="Blog (7 items)">Blog</a>
+<a href="https://anton.shevchuk.name/tag/css/" class="tag-cloud-link tag-link-29 tag-link-position-4" style="font-size: 8.75pt;" aria-label="CSS (4 items)">CSS</a>
+<a href="https://anton.shevchuk.name/tag/design/" class="tag-cloud-link tag-link-133 tag-link-position-5" style="font-size: 9.35pt;" aria-label="Design (5 items)">Design</a>
+<a href="https://anton.shevchuk.name/tag/education/" class="tag-cloud-link tag-link-134 tag-link-position-6" style="font-size: 11.825pt;" aria-label="Education (12 items)">Education</a>
+<a href="https://anton.shevchuk.name/tag/google/" class="tag-cloud-link tag-link-130 tag-link-position-7" style="font-size: 13.25pt;" aria-label="Google (19 items)">Google</a>
+<a href="https://anton.shevchuk.name/tag/hardware/" class="tag-cloud-link tag-link-120 tag-link-position-8" style="font-size: 8.75pt;" aria-label="Hardware (4 items)">Hardware</a>
+<a href="https://anton.shevchuk.name/tag/jquery/" class="tag-cloud-link tag-link-56 tag-link-position-9" style="font-size: 14pt;" aria-label="jQuery (24 items)">jQuery</a>
+<a href="https://anton.shevchuk.name/tag/kharkiv/" class="tag-cloud-link tag-link-115 tag-link-position-10" style="font-size: 8.75pt;" aria-label="Kharkiv (4 items)">Kharkiv</a>
+<a href="https://anton.shevchuk.name/tag/links-dumper/" class="tag-cloud-link tag-link-95 tag-link-position-11" style="font-size: 8pt;" aria-label="links dumper (3 items)">links dumper</a>
+<a href="https://anton.shevchuk.name/tag/php/" class="tag-cloud-link tag-link-129 tag-link-position-12" style="font-size: 11.825pt;" aria-label="PHP (12 items)">PHP</a>
+<a href="https://anton.shevchuk.name/tag/php5/" class="tag-cloud-link tag-link-34 tag-link-position-13" style="font-size: 9.875pt;" aria-label="PHP5 (6 items)">PHP5</a>
+<a href="https://anton.shevchuk.name/tag/picasa/" class="tag-cloud-link tag-link-25 tag-link-position-14" style="font-size: 8.75pt;" aria-label="Picasa (4 items)">Picasa</a>
+<a href="https://anton.shevchuk.name/tag/plugin/" class="tag-cloud-link tag-link-87 tag-link-position-15" style="font-size: 9.35pt;" aria-label="Plugin (5 items)">Plugin</a>
+<a href="https://anton.shevchuk.name/tag/review/" class="tag-cloud-link tag-link-119 tag-link-position-16" style="font-size: 10.25pt;" aria-label="Review (7 items)">Review</a>
+<a href="https://anton.shevchuk.name/tag/seo/" class="tag-cloud-link tag-link-69 tag-link-position-17" style="font-size: 9.875pt;" aria-label="SEO (6 items)">SEO</a>
+<a href="https://anton.shevchuk.name/tag/ukraine/" class="tag-cloud-link tag-link-27 tag-link-position-18" style="font-size: 9.875pt;" aria-label="Ukraine (6 items)">Ukraine</a>
+<a href="https://anton.shevchuk.name/tag/web-20/" class="tag-cloud-link tag-link-53 tag-link-position-19" style="font-size: 8.75pt;" aria-label="WEB 2.0 (4 items)">WEB 2.0</a>
+<a href="https://anton.shevchuk.name/tag/zend-framework/" class="tag-cloud-link tag-link-44 tag-link-position-20" style="font-size: 13.25pt;" aria-label="Zend Framework (19 items)">Zend Framework</a>  </section>
+      <div class="addthis_inline_share_toolbox"></div>
+    <script type="text/javascript" src="addthis_widget.js"></script>
+  </div></div><!-- id="container" -->
+</div><!-- id="wrapper" -->
+
+
+</body></html>

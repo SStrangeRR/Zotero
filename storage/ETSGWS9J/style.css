@@ -1,0 +1,45 @@
+.nav ul {
+    display: none;
+    position: absolute;
+}
+
+.nav li:hover > ul.ul_sub_root {
+    display:block;
+}
+
+.nav li:hover > ul > li > ul.ul_min_sub_root {
+	display: block;
+    position: relative;
+    padding-left: 15px;
+    font-size: 13px;
+    max-width: 200px;
+}
+
+.nav ul li {
+    min-width:170px;
+    float:none;
+    display:list-item;
+    position: relative;
+}
+.ul_sub_root ul {
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 0px;
+}
+
+ul.ul_sub_root {
+    border: 1px solid #9e9e9e;
+    background: #fff;
+    font-size: 14px;
+    list-style: none;
+    padding-left: 8px;
+    z-index: 10;
+font-family:"Open Sans Web";
+}
+
+.nav_ots {
+padding-right: 1.0rem;
+padding-left: 1.0rem;
+}

@@ -1,0 +1,1038 @@
+
+Все сервисы Хабра
+
+Сообщество IT-специалистов
+
+Ответы на любые вопросы об IT
+
+Профессиональное развитие в IT
+
+Удаленная работа для IT-специалистов
+Как стать автором
+Лучшие интервью
+Мегапосты: Умные столы (итоги конкурса) Финтех-тест Среди вечных льдов
+
+    Разработка
+    Администрирование
+    Дизайн
+    Менеджмент
+    Маркетинг
+    Гиктаймс
+    Разное
+
+pecson
+Профиль
+
+    Публикации
+    Диалоги
+    Закладки
+    Бета-тестирование
+    Настройка языка
+    Настройки
+    Выйти
+
+azakharenko 20 декабря 2019 в 23:04
+Базовые команды Linux для тестировщиков и не только
+
+    Настройка Linux ,
+    *nix ,
+    Оболочки
+
+    Из песочницы
+
+Предисловие
+
+Всем привет! Меня зовут Саша, и я больше шести лет занимаюсь тестированием бэкенда (сервисы Linux и API). Мысль о статье у меня появилась после очередной просьбы знакомого тестировщика подсказать ему, что можно почитать по командам Linux перед собеседованием. Обычно от кандидата на позицию QA инженера требуют знание основных команд (если, конечно, подразумевается работа с Linux), но как понять, про какие команды стоит почитать во время подготовки к собеседованию, если опыта работы с Linux мало или вовсе нет?
+
+Поэтому, хоть про это уже и много раз написано, я всё же решился написать ещё одну статью «Linux для новичков» и перечислить здесь базовые команды, которые нужно знать перед любым собеседованием в отдел (или компанию), где используют Linux. Я подумал, какие команды и утилиты и с какими параметрами я использую чаще всего, собрал фидбек от коллег, и скомпоновал это всё в одну статью. Статья условно делится на 3 части: сначала краткая информация об основах ввода-вывода в терминале Linux, затем обзор самых базовых команд, а в третьей части описывается решение типовых задач в Linux.
+
+    У каждой команды есть много опций, здесь все они перечислены не будут. Всегда можно ввести ` man <команда> ` или ` <команда> --help `, чтобы узнать о команде подробнее.
+
+    Пример:
+
+     [user@testhost ~]$ mkdir --help Usage: mkdir [OPTION]... DIRECTORY... Create the DIRECTORY(ies), if they do not already exist. Mandatory arguments to long options are mandatory for short options too.   -m, --mode=MODE   set file mode (as in chmod), not a=rwx - umask   -p, --parents     no error if existing, make parent directories as needed   -v, --verbose     print a message for each created directory   -Z                   set SELinux security context of each created directory                          to the default type       --context[=CTX]  like -Z, or if CTX is specified then set the SELinux                          or SMACK security context to CTX       --help     display this help and exit       --version  output version information and exit GNU coreutils online help: <http://www.gnu.org/software/coreutils/> For complete documentation, run: info coreutils 'mkdir invocation'  
+
+
+
+    Если какая-то команда выполняется слишком долго, её можно завершить, нажав в консоли Ctrl+C (процессу посылается сигнал SIGINT ).
+
+Немного о выводе команд
+
+Когда запускается процесс в Linux, создаётся 3 стандартных потока данных для этого процесса: stdin , stdout и stderr . Они имеют номер 0, 1 и 2 соответственно. Но нас сейчас интересуют stdout и, в меньшей степени, stderr . Из названий несложно догадаться, что stdout используется для вывода данных, а stderr — для вывода сообщений об ошибках. По умолчанию при запуске команды в Linux stdout и stderr выводят всю информацию на консоль, однако, если вывод команды большой, может быть удобно перенаправить его в файл. Это можно сделать, например, так:
+
+ [user@testhost ~]$ man signal > man_signal  
+
+
+Если мы выведем содержимое файла man_signal , то мы увидим, что оно идентично тому, что было бы при простом запуске команды ` man signal `.
+
+Операция перенаправления ` > ` по умолчанию использует stdout . Можно указать о перенаправлении stdout явно: ` 1> `. Аналогично можно указать о перенаправлении stderr : ` 2> `. Можно эти операции скомбинировать и таким образом разделить обычный вывод команды и вывод сообщений об ошибках:
+
+ [user@testhost ~]$ man signal 1> man_signal 2> man_signal_error_log  
+
+
+Перенаправить и stdout , и stderr в один файл можно следующим образом:
+
+ [user@testhost ~]$ man signal > man_signal 2>&1  
+
+
+Операция перенаправления ` 2>&1 ` означает перенаправление stderr туда же, куда направлен stdout .
+
+Еще один удобный инструмент для работы с вводом-выводом (а точнее, это удобное средство межпроцессного взаимодействия) — pipe (или конвейер ). Конвейеры часто используются для связи нескольких команд: stdout команды перенаправляется в stdin следующей, и так по цепочке:
+
+ [user@testhost ~]$ ps aux | grep docker | tail -n 2 root     1045894 0.0  0.0 7512 3704 ?        Sl 16:04 0:00 docker-containerd-shim -namespace moby -workdir /var/lib/docker/containerd/daemon/io.containerd.runtime.v1.linux/moby/2fbfddaf91c1bb7b9a0a6f788f3505dd7266f1139ad381d5b51ec1f47e1e7b28 -address /var/run/docker/containerd/docker-containerd.sock -containerd-binary /usr/bin/docker-containerd -runtime-root /var/run/docker/runtime-runc 531      1048313 0.0  0.0 110520 2084 pts/2    S+ 16:12 0:00 grep --color=auto docker  
+
+
+Базовые команды Linux
+
+pwd
+
+Вывести текущую (рабочую) директорию.
+
+ [user@testhost ~]$ pwd /home/user  
+
+
+date
+
+Вывести текущую дату и время системы.
+
+ [user@testhost ~]$ date Mon Dec 16 13:37:07 UTC 2019 [user@testhost ~]$ date +%s 1576503430  
+
+
+w
+
+Данная команда показывает, кто залогинен в системе. Помимо этого также на экран выводится uptime и LA (load average).
+
+ [user@testhost ~]$ w  05:47:17 up 377 days, 17:57,  1 user, load average: 0,00, 0,01, 0,05 USER     TTY FROM             LOGIN@ IDLE JCPU PCPU WHAT user     pts/0 32.175.94.241    05:47 2.00s 0.01s 0.00s w  
+
+
+ls
+
+Вывести содержимое директории. Если не передать путь, то выведется содержимое текущей директории.
+
+ [user@testhost ~]$ pwd /home/user [user@testhost ~]$ ls qqq [user@testhost ~]$ ls /home/user qqq [user@testhost ~]$ ls / bin  boot cgroup  dev etc home  lib lib64 local  lost+found media mnt  opt proc root run sbin  selinux srv swap sys tmp  usr var  
+
+
+Лично я часто использую опции -l (long listing format — вывод в колонку с дополнительной информацией о файлах), -t (сортировка по времени изменения файла/директории) и -r (обратная сортировка — в сочетании с -t наиболее «свежие» файлы будут внизу):
+
+ [user@testhost ~]$ ls -ltr / total 4194416 drwxr-xr-x    2 root root     4096 Jan 6 2012 srv drwxr-xr-x    2 root root     4096 Jan 6 2012 selinux drwxr-xr-x    2 root root     4096 Jan 6 2012 mnt drwxr-xr-x    2 root root     4096 Jan 6 2012 media drwx------    2 root root   16384 Oct 1 2017 lost+found drwxr-xr-x    2 root root     4096 Oct 1 2017 local drwxr-xr-x   13 root root       4096 Oct 1 2017 usr drwxr-xr-x   11 root root       4096 Apr 10 2018 cgroup drwxr-xr-x    4 root root     4096 Apr 10 2018 run -rw-------    1 root root 4294967296 Sep 10  2018 swap dr-xr-xr-x   10 root root       4096 Dec 13 2018 lib drwxr-xr-x    6 root root     4096 Mar 7 2019 opt drwxr-xr-x   20 root root       4096 Mar 19 2019 var dr-xr-xr-x   10 root root     12288 Apr 9 2019 lib64 dr-xr-xr-x    2 root root     4096 Apr 9 2019 bin dr-xr-xr-x    4 root root     4096 Apr 9 2019 boot dr-xr-xr-x    2 root root   12288 Apr 9 2019 sbin dr-xr-xr-x 3229 root root          0 Jul 2 10:19 proc drwxr-xr-x   34 root root       4096 Oct 28 13:27 home drwxr-xr-x   93 root root       4096 Oct 30 16:00 etc dr-xr-x---   11 root root       4096 Nov 1 13:02 root dr-xr-xr-x   13 root root         0 Nov 13 20:28 sys drwxr-xr-x   16 root root       2740 Nov 26 08:55 dev drwxrwxrwt    3 root root     4096 Nov 26 08:57 tmp  
+
+
+Есть 2 специальных имени директории: " . " и " .. ". Первое означает текущую директорию, второе — родительскую директорию. Их бывает удобно использовать в различных командах, в частности, ls :
+
+ [user@testhost home]$ pwd /home [user@testhost home]$ ls .. bin  boot cgroup  dev etc home  lib lib64 local  lost+found media mnt  opt proc root run sbin  selinux srv swap sys tmp  usr var [user@testhost home]$ ls ../home/user/ qqq  
+
+
+Также есть полезная опция для вывода скрытых файлов (начинаются на " . ") — -a :
+
+ [user@testhost ~]$ ls -a .  .. 1  .bash_history  .bash_logout .bash_profile  .bashrc .lesshst man_signal  man_signal_error_log .mongorc.js  .ssh temp test .viminfo  
+
+
+И еще можно использовать опцию -h — вывод в human readable формате (обратите внимание на размеры файлов):
+
+ [user@testhost ~]$ ls -ltrh total 16K -rwxrwx--x 1 user user 31 Nov 26 11:09 temp -rw-rw-r-- 1 user user 6.0K Dec 3 16:02 1 drwxrwxr-x 2 user user 4.0K Dec 4 10:39 test  
+
+
+cd
+
+Изменить текущую директорию.
+
+ [user@testhost ~]$ pwd /home/user [user@testhost ~]$ cd /home/ [user@testhost home]$ pwd /home  
+
+
+Если не передавать имя директории в качестве аргумента, будет использоваться переменная окружения $HOME , то есть домашняя директория. Также может быть удобно использовать ` ~ ` — специальный символ, означающий $HOME :
+
+ [user@testhost etc]$ pwd /etc [user@testhost etc]$ cd ~/test/ [user@testhost test]$ pwd /home/user/test  
+
+
+mkdir
+
+Создать директорию.
+
+ [user@testhost ~]$ mkdir test [user@testhost ~]$ ls -ltr total 38184 -rw-rw-r-- 1 user user 39091284 Nov 22 14:14 qqq drwxrwxr-x 2 user user     4096 Nov 26 10:29 test  
+
+
+Иногда нужно создать определенную структуру директорий: например, директорию в директории, которой не существует. Чтобы не вводить несколько раз подряд mkdir , можно использовать опцию -p — она позволяет создать все недостающие директории в иерархии. Также с этой опцией mkdir не вернет ошибку, если директория существует.
+
+ [user@testhost ~]$ ls qqq  test [user@testhost ~]$ mkdir test2/subtest mkdir: cannot create directory ‘test2/subtest’: No such file or directory [user@testhost ~]$ mkdir -p test2/subtest [user@testhost ~]$ ls qqq  test test2 [user@testhost ~]$ ls test2/ subtest [user@testhost ~]$ mkdir test2/subtest mkdir: cannot create directory ‘test2/subtest’: File exists [user@testhost ~]$ mkdir -p test2/subtest [user@testhost ~]$ ls test2/ subtest  
+
+
+rm
+
+Удалить файл.
+
+ [user@testhost ~]$ ls qqq  test test2 [user@testhost ~]$ rm qqq [user@testhost ~]$ ls test  test2  
+
+
+Опция -r позволяет рекурсивно удалять директории со всем их содержимым, опция -f позволяет игнорировать ошибки при удалении (например, о несуществующем файле). Эти опции позволяют, грубо говоря, гарантированно удалить всю иерархию файлов и директорий (если на это есть права у пользователя), поэтому, их нужно использовать с осторожностью (классический пример-шутка — " rm -rf / ", при определенных обстоятельствах удалит вам если не всю систему, то очень много важных для её работоспособности файлов).
+
+ [user@testhost ~]$ ls test  test2 [user@testhost ~]$ ls -ltr test2/ total 4 -rw-rw-r-- 1 user user    0 Nov 26 10:40 temp drwxrwxr-x 2 user user 4096 Nov 26 10:40 temp_dir [user@testhost ~]$ rm -rf test2 [user@testhost ~]$ ls test  
+
+
+cp
+
+Копировать файл или директорию.
+
+ [user@testhost ~]$ ls temp  test [user@testhost ~]$ cp temp temp_clone [user@testhost ~]$ ls temp  temp_clone  test  
+
+
+У этой команды также есть опции -r и -f , их можно использовать, чтобы гарантированно скопировать иерархию директорий и папок в другое место.
+
+mv
+
+Переместить или переименовать файл или директорию.
+
+ [user@testhost ~]$ ls -ltr total 4 drwxrwxr-x 2 user user 4096 Nov 26 10:29 test -rw-rw-r-- 1 user user    0 Nov 26 10:45 temp -rw-rw-r-- 1 user user    0 Nov 26 10:46 temp_clone [user@testhost ~]$ ls test [user@testhost ~]$ mv test test_renamed [user@testhost ~]$ mv temp_clone test_renamed/ [user@testhost ~]$ ls temp  test_renamed [user@testhost ~]$ ls test_renamed/ temp_clone  
+
+
+cat
+
+Вывести содержимое файла (или файлов).
+
+ [user@testhost ~]$ cat temp Content of a file. Lalalala...  
+
+
+Также стоит обратить внимание на команды head (вывести n первых строк или байт файла) и tail (о ней — далее).
+
+tail
+
+Вывести n последних строк или байт файла.
+
+ [user@testhost ~]$ tail -1 temp Lalalala...  
+
+
+Очень полезной является опция -f — она позволяет выводить новые данные в файле в реальном времени.
+
+less
+
+Иногда текстовый файл слишком большой, и неудобно выводить его командой cat . Тогда можно открыть его с помощью команды less : файл будет выводиться по частям, доступна навигация по этим частям, поиск и прочий простой функционал.
+
+ [user@testhost ~]$ less temp  
+
+
+Также может оказаться удобным вариант использования less с конвейером ( pipe ):
+
+ [user@testhost ~]$ grep "ERROR" /tmp/some.log | less  
+
+
+ps
+
+Вывести список процессов.
+
+ [user@testhost ~]$ ps     PID TTY          TIME CMD  761020 pts/2    00:00:00 bash  809720 pts/2    00:00:00 ps  
+
+
+Я сам обычно использую BSD опции " aux " — вывести все процессы в системе (так как процессов может быть много, я вывел только первые 5 из них, использовав конвейер ( pipe ) и команду head ):
+
+ [user@testhost ~]$ ps aux | head -5 USER         PID %CPU %MEM    VSZ RSS TTY   STAT START TIME COMMAND root           1 0.0 0.0 19692  2600 ? Ss Jul02   0:10 /sbin/init root           2 0.0 0.0   0 0 ? S    Jul02 0:03 [kthreadd] root           4 0.0 0.0   0 0 ? I<   Jul02 0:00 [kworker/0:0H] root           6 0.0 0.0   0 0 ? I<   Jul02 0:00 [mm_percpu_wq]  
+
+
+Многие также используют BSD опции " axjf ", что позволяет вывести дерево процессов (здесь я убрал часть вывода для демонстрации):
+
+ [user@testhost ~]$ ps axjf    PPID     PID PGID     SID TTY TPGID STAT   UID TIME COMMAND       0       2 0       0 ? -1 S        0 0:03 [kthreadd]       2       4 0       0 ? -1 I<       0 0:00 \_ [kworker/0:0H]       2       6 0       0 ? -1 I<       0 0:00 \_ [mm_percpu_wq]       2       7 0       0 ? -1 S        0 4:08 \_ [ksoftirqd/0] ... ... ...       1    4293   4293 4293 tty6        4293 Ss+ 0 0:00 /sbin/mingetty /dev/tty6       1  532967  532964 532964 ?             -1 Sl 495 0:00 /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid  532967  532970 532964  532964 ?     -1 Sl 495 803:06 \_ /opt/td-agent/embedded/bin/ruby /usr/sbin/td-agent --log /var/log/td-agent/td-agent.log --use-v1-config --group td-agent --daemon /var/run/td-agent/td-agent.pid       1  537162  533357 532322 ?             -1 Sl 0 5067:43 /usr/bin/dockerd --default-ulimit nofile=262144:262144 --dns=172.17.0.1  537162  537177 537177  537177 ?     -1 Ssl 0 4649:28  \_ docker-containerd --config /var/run/docker/containerd/containerd.toml  537177  537579 537579  537177 ?     -1 Sl 0 4:48 |   \_ docker-containerd-shim -namespace moby -workdir /var/lib/docker/containerd/daemon/io.containerd.runtime.v1.linux/moby/0ee89b20deb3cf08648cd92e1f3e3c661ccffef7a0971  537579  537642 537642  537642 ?     -1 Ss 1000 32:11 |   | \_ /usr/bin/python /usr/bin/supervisord -c /etc/supervisord/api.conf  537642  539764 539764  537642 ?     -1 S 1000 0:00 |   | \_ sh -c echo "READY"; while read -r line; do echo "$line"; supervisorctl shutdown; done  537642  539767 539767  537642 ?     -1 S 1000 5:09 |   | \_ php-fpm: master process (/etc/php73/php-fpm.conf)  539767  783097 539767  537642 ?     -1 S 1000 0:00 |   | | \_ php-fpm: pool test  539767  783131 539767  537642 ?     -1 S 1000 0:00 |   | | \_ php-fpm: pool test  539767  783185 539767  537642 ?     -1 S 1000 0:00 |   | | \_ php-fpm: pool test ... ... ...  
+
+
+У этой команды много различных опций, так что при активном использовании рекомендую ознакомиться с документацией. Для большинства же случаев хватит просто знать " ps aux ".
+
+kill
+
+Послать сигнал процессу. По умолчанию посылается сигнал SIGTERM , который завершает процесс.
+
+ [user@testhost ~]$ ps ux USER         PID %CPU %MEM    VSZ RSS TTY   STAT START TIME COMMAND 531      1027147 0.0  0.0 119956 4260 ?        S 14:51 0:00 sshd: user@pts/1 531      1027149 0.0  0.0 115408 3396 pts/1    Ss 14:51 0:00 -bash 531      1027170 0.0  0.0 119956 4136 ?        R 14:51 0:00 sshd: user@pts/2 531      1027180 0.0  0.0 115408 3564 pts/2    Ss 14:51 0:00 -bash 531      1033727 0.0  0.0 107960 708 pts/1    S+ 15:17 0:00 sleep 300 531      1033752 0.0  0.0 117264 2604 pts/2    R+ 15:17 0:00 ps ux [user@testhost ~]$ kill 1033727 [user@testhost ~]$ ps ux USER         PID %CPU %MEM    VSZ RSS TTY   STAT START TIME COMMAND 531      1027147 0.0  0.0 119956 4260 ?        S 14:51 0:00 sshd: user@pts/1 531      1027149 0.0  0.0 115408 3396 pts/1    Ss+ 14:51 0:00 -bash 531      1027170 0.0  0.0 119956 4136 ?        R 14:51 0:00 sshd: user@pts/2 531      1027180 0.0  0.0 115408 3564 pts/2    Ss 14:51 0:00 -bash 531      1033808 0.0  0.0 117268 2492 pts/2    R+ 15:17 0:00 ps ux  
+
+
+Так как процесс может иметь обработчики сигналов, kill не всегда приводит к ожидаемому результату — моментальному завершению процесса. Чтобы «убить» процесс наверняка, нужно послать процессу сигнал SIGKILL . Однако это может привести к потере данных (например, если процесс перед завершением должен сохранить какую-то информацию на диск), так что нужно пользоваться такой командой осторожно. Номер сигнала SIGKILL — 9, поэтому короткий вариант команды выглядит так:
+
+ [user@testhost ~]$ ps ux | grep sleep 531      1034930 0.0  0.0 107960 636 pts/1    S+ 15:21 0:00 sleep 300 531      1034953 0.0  0.0 110516 2104 pts/2    S+ 15:21 0:00 grep --color=auto sleep [user@testhost ~]$ kill -9 1034930 [user@testhost ~]$ ps ux | grep sleep 531      1035004 0.0  0.0 110516 2092 pts/2    S+ 15:22 0:00 grep --color=auto sleep  
+
+
+Помимо упомянутых SIGTERM и SIGKILL существует еще множество различных сигналов, их список можно легко найти в интернете. И не забывайте, что сигналы SIGKILL и SIGSTOP не могут быть перехвачены или проигнорированы.
+
+ping
+
+Послать хосту ICMP пакет ECHO_REQUEST .
+
+ [user@testhost ~]$ ping google.com PING google.com (172.217.15.78) 56(84) bytes of data. 64 bytes from iad23s63-in-f14.1e100.net (172.217.15.78): icmp_seq=1 ttl=47 time=1.85 ms 64 bytes from iad23s63-in-f14.1e100.net (172.217.15.78): icmp_seq=2 ttl=47 time=1.48 ms 64 bytes from iad23s63-in-f14.1e100.net (172.217.15.78): icmp_seq=3 ttl=47 time=1.45 ms 64 bytes from iad23s63-in-f14.1e100.net (172.217.15.78): icmp_seq=4 ttl=47 time=1.46 ms 64 bytes from iad23s63-in-f14.1e100.net (172.217.15.78): icmp_seq=5 ttl=47 time=1.45 ms ^C --- google.com ping statistics --- 5 packets transmitted, 5 received, 0% packet loss, time 4006ms rtt min/avg/max/mdev = 1.453/1.541/1.850/0.156 ms  
+
+
+По умолчанию ping работает, пока его не завершить вручную. Поэтому может быть полезна опция -c — количество пакетов, после отправки которых ping завершится самостоятельно. Ещё одна опция, которую я иногда использую — -i , интервал между посылками пакетов.
+
+ [user@testhost ~]$ ping -c 3 -i 5 google.com PING google.com (172.217.5.238) 56(84) bytes of data. 64 bytes from iad30s07-in-f238.1e100.net (172.217.5.238): icmp_seq=1 ttl=47 time=1.55 ms 64 bytes from iad30s07-in-f14.1e100.net (172.217.5.238): icmp_seq=2 ttl=47 time=1.17 ms 64 bytes from iad30s07-in-f14.1e100.net (172.217.5.238): icmp_seq=3 ttl=47 time=1.16 ms --- google.com ping statistics --- 3 packets transmitted, 3 received, 0% packet loss, time 10006ms rtt min/avg/max/mdev = 1.162/1.295/1.551/0.181 ms  
+
+
+ssh
+
+OpenSSH SSH клиент, позволяет подключаться к удаленному хосту.
+
+ MacBook-Pro-User:~ user$ ssh user@11.11.22.22 Last login: Tue Nov 26 11:27:39 2019 from another_host [user@testhost ~]$ hostname testhost  
+
+
+Есть много нюансов в использовании SSH, также этот клиент обладает большим количеством возможностей, поэтому при желании (или необходимости) можно почитать про это более подробно .
+
+scp
+
+Копировать файлы между хостами (для этого используется ssh ).
+
+ [user@testhost ~]$ pwd /home/user [user@testhost ~]$ ls temp  test_renamed [user@testhost ~]$ exit logout Connection to 11.11.22.22 closed. MacBook-Pro-Aleksandr:~ user$ scp user@11.11.22.22:/home/user/temp Downloads/ temp                                                                                                                                                                                                        100% 31 0.2KB/s 00:00 MacBook-Pro-Aleksandr:~ user$ cat Downloads/temp Content of a file. Lalalala...  
+
+
+rsync
+
+Также для синхронизации директорий между хостами можно использовать rsync ( -a — archive mode, позволяет скопировать полностью всё содержимое директории «как есть», -v — вывод на консоль дополнительной информации):
+
+ MacBook-Pro-User:~ user$ ls Downloads/user ls: Downloads/user: No such file or directory MacBook-Pro-User:~ user$ rsync -av user@testhost:/home/user Downloads receiving file list ... done user/ user/.bash_history user/.bash_logout user/.bash_profile user/.bashrc user/.lesshst user/.mongorc.js user/.viminfo user/1 user/man_signal user/man_signal_error_log user/temp user/.ssh/ user/.ssh/authorized_keys user/test/ user/test/created_today user/test/temp_clone sent 346 bytes  received 29210 bytes  11822.40 bytes/sec total size is 28079  speedup is 0.95 MacBook-Pro-User:~ user$ ls -a Downloads/user .                    .bash_history .bash_profile        .lesshst .ssh 1                    man_signal_error_log test ..                   .bash_logout .bashrc              .mongorc.js .viminfo man_signal           temp  
+
+
+echo
+
+Вывести на экран строку текста.
+
+ [user@testhost ~]$ echo "Hello" Hello  
+
+
+Здесь заслуживают внимания опции -n — не дополнять строку переносом строки в конце, и -e — включить интерпретацию экранирования с помощью "\".
+
+ [user@testhost ~]$ echo "\tHello\n" \tHello\n [user@testhost ~]$ echo -n "\tHello\n" \tHello\n[user@testhost ~]$ [user@testhost ~]$ echo -ne "\tHello\n" Hello  
+
+
+Также с помощью этой команды можно выводить значения переменных. Например, в Linux exit code последней завершенной команды хранится в специальной переменной $? , и таким образом можно узнать, какая именно ошибка произошла в последнем запущенном приложении:
+
+ [user@testhost ~]$ ls    # ошибки не будет 1  man_signal  man_signal_error_log  temp test [user@testhost ~]$ echo $?    # получим 0 — ошибки не было 0 [user@testhost ~]$ ls qwerty    # будет ошибка ls: cannot access qwerty: No such file or directory [user@testhost ~]$ echo $?    # получим 2 — Misuse of shell builtins (according to Bash documentation) 2 [user@testhost ~]$ echo $?    # последний echo отработал без ошибок, получим 0 0  
+
+
+telnet
+
+Клиент для протокола TELNET. Используется для коммуникации с другим хостом.
+
+ [user@testhost ~]$ telnet example.com 80 Trying 93.184.216.34... Connected to example.com. Escape character is '^]'. GET / HTTP/1.1 Host: example.com HTTP/1.1 200 OK Cache-Control: max-age=604800 Content-Type: text/html; charset=UTF-8 Date: Tue, 26 Nov 2019 11:59:18 GMT Etag: "3147526947+gzip+ident" Expires: Tue, 03 Dec 2019 11:59:18 GMT Last-Modified: Thu, 17 Oct 2019 07:18:26 GMT Server: ECS (dcb/7F3B) Vary: Accept-Encoding X-Cache: HIT Content-Length: 1256 ... здесь было тело ответа, которое я вырезал руками ...  
+
+
+Если нужно использовать протокол TLS (напомню, что SSL давно устарел), то telnet для этих целей не подойдёт. Зато подойдёт клиент openssl :
+
+Пример использования openssl с выводом ответа на GET запрос
+
+ [user@testhost ~]$ openssl s_client -connect example.com:443 CONNECTED(00000003) depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA verify return:1 depth=1 C = US, O = DigiCert Inc, CN = DigiCert SHA2 Secure Server CA verify return:1 depth=0 C = US, ST = California, L = Los Angeles, O = Internet Corporation for Assigned Names and Numbers, OU = Technology, CN = www.example.org verify return:1 --- Certificate chain  0 s:/C=US/ST=California/L=Los Angeles/O=Internet Corporation for Assigned Names and Numbers/OU=Technology/CN=www.example.org    i:/C=US/O=DigiCert Inc/CN=DigiCert SHA2 Secure Server CA  1 s:/C=US/O=DigiCert Inc/CN=DigiCert SHA2 Secure Server CA    i:/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert Global Root CA  2 s:/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert Global Root CA    i:/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=DigiCert Global Root CA --- Server certificate -----BEGIN CERTIFICATE----- MIIHQDCCBiigAwIBAgIQD9B43Ujxor1NDyupa2A4/jANBgkqhkiG9w0BAQsFADBN MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMScwJQYDVQQDEx5E aWdpQ2VydCBTSEEyIFNlY3VyZSBTZXJ2ZXIgQ0EwHhcNMTgxMTI4MDAwMDAwWhcN MjAxMjAyMTIwMDAwWjCBpTELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3Ju aWExFDASBgNVBAcTC0xvcyBBbmdlbGVzMTwwOgYDVQQKEzNJbnRlcm5ldCBDb3Jw b3JhdGlvbiBmb3IgQXNzaWduZWQgTmFtZXMgYW5kIE51bWJlcnMxEzARBgNVBAsT ClRlY2hub2xvZ3kxGDAWBgNVBAMTD3d3dy5leGFtcGxlLm9yZzCCASIwDQYJKoZI hvcNAQEBBQADggEPADCCAQoCggEBANDwEnSgliByCGUZElpdStA6jGaPoCkrp9vV rAzPpXGSFUIVsAeSdjF11yeOTVBqddF7U14nqu3rpGA68o5FGGtFM1yFEaogEv5g rJ1MRY/d0w4+dw8JwoVlNMci+3QTuUKf9yH28JxEdG3J37Mfj2C3cREGkGNBnY80 eyRJRqzy8I0LSPTTkhr3okXuzOXXg38ugr1x3SgZWDNuEaE6oGpyYJIBWZ9jF3pJ QnucP9vTBejMh374qvyd0QVQq3WxHrogy4nUbWw3gihMxT98wRD1oKVma1NTydvt hcNtBfhkp8kO64/hxLHrLWgOFT/l4tz8IWQt7mkrBHjbd2XLVPkCAwEAAaOCA8Ew ggO9MB8GA1UdIwQYMBaAFA+AYRyCMWHVLyjnjUY4tCzhxtniMB0GA1UdDgQWBBRm mGIC4AmRp9njNvt2xrC/oW2nvjCBgQYDVR0RBHoweIIPd3d3LmV4YW1wbGUub3Jn ggtleGFtcGxlLmNvbYILZXhhbXBsZS5lZHWCC2V4YW1wbGUubmV0ggtleGFtcGxl Lm9yZ4IPd3d3LmV4YW1wbGUuY29tgg93d3cuZXhhbXBsZS5lZHWCD3d3dy5leGFt cGxlLm5ldDAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsG AQUFBwMCMGsGA1UdHwRkMGIwL6AtoCuGKWh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNv bS9zc2NhLXNoYTItZzYuY3JsMC+gLaArhilodHRwOi8vY3JsNC5kaWdpY2VydC5j b20vc3NjYS1zaGEyLWc2LmNybDBMBgNVHSAERTBDMDcGCWCGSAGG/WwBATAqMCgG CCsGAQUFBwIBFhxodHRwczovL3d3dy5kaWdpY2VydC5jb20vQ1BTMAgGBmeBDAEC AjB8BggrBgEFBQcBAQRwMG4wJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2lj ZXJ0LmNvbTBGBggrBgEFBQcwAoY6aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29t L0RpZ2lDZXJ0U0hBMlNlY3VyZVNlcnZlckNBLmNydDAMBgNVHRMBAf8EAjAAMIIB fwYKKwYBBAHWeQIEAgSCAW8EggFrAWkAdwCkuQmQtBhYFIe7E6LMZ3AKPDWYBPkb 37jjd80OyA3cEAAAAWdcMZVGAAAEAwBIMEYCIQCEZIG3IR36Gkj1dq5L6EaGVycX sHvpO7dKV0JsooTEbAIhALuTtf4wxGTkFkx8blhTV+7sf6pFT78ORo7+cP39jkJC AHYAh3W/51l8+IxDmV+9827/Vo1HVjb/SrVgwbTq/16ggw8AAAFnXDGWFQAABAMA RzBFAiBvqnfSHKeUwGMtLrOG3UGLQIoaL3+uZsGTX3MfSJNQEQIhANL5nUiGBR6g l0QlCzzqzvorGXyB/yd7nttYttzo8EpOAHYAb1N2rDHwMRnYmQCkURX/dxUcEdkC wQApBo2yCJo32RMAAAFnXDGWnAAABAMARzBFAiEA5Hn7Q4SOyqHkT+kDsHq7ku7z RDuM7P4UDX2ft2Mpny0CIE13WtxJAUr0aASFYZ/XjSAMMfrB0/RxClvWVss9LHKM MA0GCSqGSIb3DQEBCwUAA4IBAQBzcIXvQEGnakPVeJx7VUjmvGuZhrr7DQOLeP4R 8CmgDM1pFAvGBHiyzvCH1QGdxFl6cf7wbp7BoLCRLR/qPVXFMwUMzcE1GLBqaGZM v1Yh2lvZSLmMNSGRXdx113pGLCInpm/TOhfrvr0TxRImc8BdozWJavsn1N2qdHQu N+UBO6bQMLCD0KHEdSGFsuX6ZwAworxTg02/1qiDu7zW7RyzHvFYA4IAjpzvkPIa X6KjBtpdvp/aXabmL95YgBjT8WJ7pqOfrqhpcmOBZa6Cg6O1l4qbIFH/Gj9hQB5I 0Gs4+eH6F9h3SojmPTYkT+8KuZ9w84Mn+M8qBXUQoYoKgIjN -----END CERTIFICATE----- subject=/C=US/ST=California/L=Los Angeles/O=Internet Corporation for Assigned Names and Numbers/OU=Technology/CN=www.example.org issuer=/C=US/O=DigiCert Inc/CN=DigiCert SHA2 Secure Server CA --- No client certificate CA names sent Peer signing digest: SHA256 Server Temp Key: ECDH, P-256, 256 bits --- SSL handshake has read 4643 bytes and written 415 bytes --- New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES128-GCM-SHA256 Server public key is 2048 bit Secure Renegotiation IS supported Compression: NONE Expansion: NONE No ALPN negotiated SSL-Session:     Protocol  : TLSv1.2     Cipher    : ECDHE-RSA-AES128-GCM-SHA256     Session-ID: 91950DC50FADB57BF026D2661E6CFAA1F522E5CA60D2310E106EE0E0FD6E70BD     Session-ID-ctx:     Master-Key: 704E9145253EEB4E9DC47E3DC6725D296D4A470EA296D54F71D65E74EAC09EB096EA1305CBEDD9E7020B8F72FD2B68A5     Key-Arg   : None     Krb5 Principal: None     PSK identity: None     PSK identity hint: None     TLS session ticket lifetime hint: 7200 (seconds)     TLS session ticket:     0000 - 68 84 4e 77 be e3 f5 00-49 c5 44 40 53 4d b9 61   h.Nw....I.D@SM.a     0010 - c9 fe df e4 05 51 d0 53-ae cf 89 4c b6 ef 6c 9e   .....Q.S...L..l.     0020 - fe 12 9a f0 e8 e5 4e 87-42 89 ac af ca e5 4a 85   ......N.B.....J.     0030 - 38 08 26 e3 22 89 08 b5-62 c0 8b 7e b8 05 d3 54   8.&."...b..~...T     0040 - 8c 24 91 a7 b4 4f 79 ad-36 59 7c 69 2d e5 7f 62   .$...Oy.6Y|i-..b     0050 - f6 73 a3 8b 92 63 c1 e3-df 78 ba 8c 5a cc 82 50   .s...c...x..Z..P     0060 - 33 4e 13 4b 10 e4 97 31-cc b4 13 65 45 60 3e 13   3N.K...1...eE`>.     0070 - ac 9e b1 bb 4b 18 d9 16-ea ce f0 9b 5b 0c 8b bf   ....K.......[...     0080 - fd 78 74 a0 1a ef c2 15-2a 0a 14 8d d1 3f 52 7a   .xt.....*....?Rz     0090 - 12 6b c7 81 15 c4 c4 af-7e df c2 20 a8 dd 4b 93   .k......~.. ..K.     Start Time: 1574769867     Timeout   : 300 (sec)     Verify return code: 0 (ok) --- GET / HTTP/1.1 Host: example.com HTTP/1.1 200 OK Cache-Control: max-age=604800 Content-Type: text/html; charset=UTF-8 Date: Tue, 26 Nov 2019 12:04:38 GMT Etag: "3147526947+ident" Expires: Tue, 03 Dec 2019 12:04:38 GMT Last-Modified: Thu, 17 Oct 2019 07:18:26 GMT Server: ECS (dcb/7EC8) Vary: Accept-Encoding X-Cache: HIT Content-Length: 1256 <!doctype html> <html> <head>     <title>Example Domain</title>     <meta charset="utf-8" />     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />     <meta name="viewport" content="width=device-width, initial-scale=1" />     <style type="text/css">     body {         background-color: #f0f0f2;         margin: 0;         padding: 0;         font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;     }     div {         width: 600px;         margin: 5em auto;         padding: 2em;         background-color: #fdfdff;         border-radius: 0.5em;         box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);     }     a:link, a:visited {         color: #38488f;         text-decoration: none;     }     @media (max-width: 700px) {         div {             margin: 0 auto;             width: auto;         }     }     </style> </head> <body> <div>     <h1>Example Domain</h1>     <p>This domain is for use in illustrative examples in documents. You may use this     domain in literature without prior coordination or asking for permission.</p>     <p><a href="https://www.iana.org/domains/example">More information...</a></p> </div> </body> </html>  
+
+
+
+Решение типовых задач в Linux
+
+Изменить владельца файла
+
+Изменить владельца файла или директории можно с помощью команды chown :
+
+ [user@testhost ~]$ chown user:user temp [user@testhost ~]$ ls -l temp -rw-rw-r-- 1 user user 31 Nov 26 11:09 temp  
+
+
+В параметр этой команде нужно отдать нового владельца и группу (опционально), разделенных двоеточием. Также при изменении владельца директории может быть полезна опция -R — тогда владельцы изменятся и у всего содержимого директории.
+
+Изменить права доступа файла
+
+Эта задача решается с помощью команды chmod . В качестве примера приведу установку прав «владельцу разрешено чтение, запись и исполнение, группе разрешено чтение и запись, всем остальным — ничего»:
+
+ [user@testhost ~]$ ls -l temp -rw-rw-r-- 1 user user 31 Nov 26 11:09 temp [user@testhost ~]$ chmod 760 temp [user@testhost ~]$ ls -l temp -rwxrw---- 1 user user 31 Nov 26 11:09 temp  
+
+
+Первая 7 (это 0b111 в битовом представлении) в параметре означает «все права для владельца», вторая 6 (это 0b110 в битовом представлении) — «чтение и запись», ну и 0 — это ничего для остальных. Битовая маска состоит из трёх битов: самый младший («правый») бит отвечает за исполнение, следующий за ним («средний») — за запись, и самый старший («левый») — за чтение.
+Также можно выставлять права с помощью специальных символов ( мнемонический синтаксис ). Например, в следующем примере сначала убираются права на исполнение для текущего пользователя, а затем возвращаются обратно:
+
+ [user@testhost ~]$ ls -l temp -rwxrw---- 1 user user 31 Nov 26 11:09 temp [user@testhost ~]$ chmod -x temp [user@testhost ~]$ ls -l temp -rw-rw---- 1 user user 31 Nov 26 11:09 temp [user@testhost ~]$ chmod +x temp [user@testhost ~]$ ls -l temp -rwxrwx--x 1 user user 31 Nov 26 11:09 temp  
+
+
+У этой команды есть много вариантов использования, поэтому советую прочитать про неё подробнее (особенно про мнемонический синтаксис, например, здесь ).
+
+Вывести содержимое бинарного файла
+
+Это можно сделать с помощью утилиты hexdump . Ниже приведены примеры её использования.
+
+ [user@testhost ~]$ cat temp Content of a file. Lalalala... [user@testhost ~]$ hexdump -c temp 0000000   C o n   t e n t       o f a f   i l 0000010   e . \n   L a l a   l a l a .   . . \n 000001f [user@testhost ~]$ hexdump -x temp 0000000    6f43 746e    6e65 2074 666f    6120 6620 6c69 0000010    2e65 4c0a    6c61 6c61 6c61    2e61 2e2e 000a 000001f [user@testhost ~]$ hexdump -C temp 00000000  43 6f 6e 74 65 6e 74 20  6f 66 20 61 20 66 69 6c |Content of a fil| 00000010  65 2e 0a 4c 61 6c 61 6c  61 6c 61 2e 2e 2e 0a |e..Lalalala....| 0000001f  
+
+
+С помощью этой утилиты можно вывести данные и в других форматах, однако наиболее часто могут пригодиться именно такие варианты её использования.
+
+Искать файлы
+
+Найти файл по части имени в дереве каталогов можно с помощью команды find :
+
+ [user@testhost ~]$ find test_dir/ -name "*le*" test_dir/file_1 test_dir/file_2 test_dir/subdir/file_3  
+
+
+Также доступны другие опции и фильтры поиска. Например, так можно найти файлы в папке test , созданные более 5 дней назад:
+
+ [user@testhost ~]$ ls -ltr test total 0 -rw-rw-r-- 1 user user 0 Nov 26 10:46 temp_clone -rw-rw-r-- 1 user user 0 Dec  4 10:39 created_today [user@testhost ~]$ find test/ -type f -ctime +5 test/temp_clone  
+
+
+Искать текст в файлах
+
+Справиться с этой задачей поможет команда grep . У неё есть множество вариантов использования, здесь в качестве примера указан самый простой.
+
+ [user@testhost ~]$ grep -nr "content" test_dir/ test_dir/file_1:1:test content for file_1 test_dir/file_2:1:test content for file_2 test_dir/subdir/file_3:1:test content for file_3  
+
+
+Один из популярных способов использования команды grep — использование её в конвейере ( pipe ):
+
+ [user@testhost ~]$ sudo tail -f /var/log/test.log | grep "ERROR"  
+
+
+Опция -v позволяет сделать эффект grep 'а обратным — будут выводиться только строки, не содержащие паттерн, переданный в grep .
+
+Смотреть установленные пакеты
+
+Универсальной команды нет, потому что всё зависит от дистрибутива Linux и используемого пакетного менеджера. Скорее всего вам поможет одна из следующих команд:
+
+ yum list installed apt list --installed zypper se —installed-only pacman -Qqe dpkg -l rpm -qa  
+
+
+Посмотреть, сколько места занимает дерево директорий
+
+Один из вариантов использования команды du :
+
+ [user@testhost ~]$ du -h -d 1 test_dir/ 8,0K test_dir/subdir 20K test_dir/  
+
+
+Можно менять значение параметра -d , чтобы получать более подробную информацию о дереве директорий. Также можно использовать команду в комбинации с sort :
+
+ [user@testhost ~]$ du -h -d 1 test_dir/ | sort -h 8,0K test_dir/subdir 16K test_dir/subdir_2 36K test_dir/ [user@testhost ~]$ du -h -d 1 test_dir/ | sort -h -r 36K test_dir/ 16K test_dir/subdir_2 8,0K test_dir/subdir  
+
+
+Опция -h у команды sort позволяет сортировать размеры, записанные в human readable формате (например, 1K, 2G), опция -r позволяет отсортировать данные в обратном порядке.
+
+«Найти и заменить» в файле, в файлах в директории
+
+Данная операция выполняется с помощью утилиты sed (без флага g в конце заменится только первое вхождение «old-text» в строке):
+
+ sed -i 's/old-text/new-text/g' input.txt  
+
+
+Можно использовать её для нескольких файлов сразу:
+
+ [user@testhost ~]$ cat test_dir/file_* test content for file_1 test content for file_2 [user@testhost ~]$ sed -i 's/test/edited/g' test_dir/file_* [user@testhost ~]$ cat test_dir/file_* edited content for file_1 edited content for file_2  
+
+
+Вывести колонку из вывода
+
+Справиться с этой задачей поможет awk . В данном примере выводится вторая колонка вывода команды ` ps ux `:
+
+ [user@testhost ~]$ ps ux | awk '{print $2}' PID 11023 25870 25871 25908 25909  
+
+
+При этом надо иметь ввиду, что awk обладает гораздо более богатым функционалом, так что при необходимости работы с текстом в командной строке стоит почитать об этой команде подробнее.
+
+Узнать IP адрес по имени хоста
+
+С этим поможет одна из следующих команд:
+
+ [user@testhost ~]$ host ya.ru ya.ru has address 87.250.250.242 ya.ru has IPv6 address 2a02:6b8::2:242 ya.ru mail is handled by 10 mx.yandex.ru. [user@testhost ~]$ dig +short ya.ru 87.250.250.242 [user@testhost ~]$ nslookup ya.ru Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: ya.ru Address: 87.250.250.242  
+
+
+Сетевая информация
+
+Можно использовать ifconfig :
+
+ [user@testhost ~]$ ifconfig eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500         inet 47.89.93.67  netmask 255.255.224.0  broadcast 47.89.95.255         inet6 fd90::302:57ff:fe79:1  prefixlen 64 scopeid 0x20<link>         ether 04:01:57:79:00:01  txqueuelen 1000 (Ethernet)         RX packets 11912135  bytes 9307046034 (8.6 GiB)         RX errors 0  dropped 0 overruns 0  frame 0         TX packets 14696632  bytes 2809191835 (2.6 GiB)         TX errors 0  dropped 0 overruns 0  carrier 0 collisions 0 lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536         inet 127.0.0.1  netmask 255.0.0.0         inet6 ::1  prefixlen 128  scopeid 0x10<host>         loop  txqueuelen 0  (Local Loopback)         RX packets 10  bytes 866 (866.0 B)         RX errors 0  dropped 0 overruns 0  frame 0         TX packets 10  bytes 866 (866.0 B)         TX errors 0  dropped 0 overruns 0  carrier 0 collisions 0  
+
+
+А можно и ip :
+
+ [user@testhost ~]$ ip a 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00     inet 127.0.0.1/8 scope host lo        valid_lft forever preferred_lft forever     inet6 ::1/128 scope host        valid_lft forever preferred_lft forever 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000     link/ether 04:01:57:79:00:01 brd ff:ff:ff:ff:ff:ff     inet 47.89.93.67/19 brd 47.89.95.255 scope global eth0        valid_lft forever preferred_lft forever     inet6 fd90::302:57ff:fe79:1/64 scope link        valid_lft forever preferred_lft forever 3: ip_vti0: <NOARP> mtu 1500 qdisc noop state DOWN group default     link/ipip 0.0.0.0 brd 0.0.0.0  
+
+
+При этом, если, например, вас интересует только IPv4, то можно добавить опцию -4 :
+
+ [user@testhost ~]$ ip -4 a 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default     inet 127.0.0.1/8 scope host lo        valid_lft forever preferred_lft forever 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000     inet 47.89.93.67/19 brd 47.89.95.255 scope global eth0        valid_lft forever preferred_lft forever  
+
+
+Посмотреть открытые порты
+
+Для этого используют утилиту netstat . Например, чтобы посмотреть все слушающие TCP и UDP порты с отображением PID'а процесса, слушающего порт, и с числовым представлением порта, нужно использовать ее со следующими опциями:
+
+ [user@testhost ~]$ netstat -lptnu  
+
+
+Информация о системе
+
+Получить данную информацию можно с помощью команды uname .
+
+ [user@testhost ~]$ uname -a Linux alexander 3.10.0-123.8.1.el7.x86_64 #1 SMP Mon Sep 22 19:06:58 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux  
+
+
+Чтобы понять, в каком формате производится вывод, можно обратиться к help 'у данной команды:
+
+ [user@testhost ~]$ uname --help Использование: uname [КЛЮЧ]… Печатает определенные сведения о системе.  Если КЛЮЧ не задан, подразумевается -s.   -a, --all          напечатать всю информацию, в следующем порядке,                        кроме -p и -i, если они неизвестны:   -s, --kernel-name  напечатать имя ядра   -n, --nodename     напечатать имя машины в сети   -r, --release      напечатать номер выпуска операционной системы   -v, --kernel-version     напечатать версию ядра   -m, --machine            напечатать тип оборудования машины   -p, --processor          напечатать тип процессора или «неизвестно»   -i, --hardware-platform  напечатать тип аппаратной платформы или «неизвестно»   -o, --operating-system   напечатать имя операционной системы       --help     показать эту справку и выйти       --version  показать информацию о версии и выйти  
+
+
+Информация о памяти
+
+Чтобы понять, сколько оперативной памяти занято или свободно, можно воспользоваться командой free .
+
+ [user@testhost ~]$ free -h               total        used free      shared buff/cache available Mem:           3,9G 555M        143M 56M 3,2G        3,0G Swap:            0B 0B       0B  
+
+
+Информация о файловых системах (свободное место на дисках)
+
+Команда df позволяет посмотреть, сколько места свободно и занято на примонтированных файловых системах.
+
+ [user@testhost ~]$ df -hT Файловая система Тип      Размер Использовано Дост Использовано% Cмонтировано в /dev/vda1        ext4 79G         21G 55G 27% / devtmpfs         devtmpfs 2,0G           0 2,0G 0% /dev tmpfs            tmpfs 2,0G           0 2,0G 0% /dev/shm tmpfs            tmpfs 2,0G         57M 1,9G 3% /run tmpfs            tmpfs 2,0G           0 2,0G 0% /sys/fs/cgroup tmpfs            tmpfs 396M           0 396M 0% /run/user/1001  
+
+
+Опция -T указывает, что нужно выводить тип файловой системы.
+
+Информация о задачах и различной статистике по системе
+
+Для этого используется команда top . Она способна вывести разную информацию: например, топ процессов по использованию оперативной памяти или топ процессов по использованию процессорного времени. Также она выводит информацию о памяти, CPU, uptime и LA (load average).
+
+ [user@testhost ~]$ top | head -10 top - 17:19:13 up 154 days,  6:59, 3 users, load average: 0.21, 0.21, 0.27 Tasks: 2169 total,   2 running, 2080 sleeping,   0 stopped, 0 zombie Cpu(s):  1.7%us, 0.7%sy,  0.0%ni, 97.5%id, 0.0%wa,  0.0%hi, 0.1%si, 0.0%st Mem:  125889960k total, 82423048k used, 43466912k free, 16026020k buffers Swap:        0k total,     0k used, 0k free, 31094516k cached     PID USER      PR NI VIRT RES  SHR S %CPU %MEM TIME+  COMMAND   25282 user      20 0 16988 3936 1964 R  7.3 0.0 0:00.04 top    4264 telegraf  20 0 2740m 240m  22m S 1.8 0.2 23409:39 telegraf    6718 root      20 0 35404 4768 3024 S  1.8 0.0 0:01.49 redis-server  
+
+
+Эта утилита обладает богатым функционалом, так что если вам надо часто ей пользоваться, лучше ознакомиться с её документацией.
+
+Дамп сетевого трафика
+
+Для перехвата сетевого трафика в Linux используется утилита tcpdump . Чтобы сдампить трафик на порте 12345, можно воспользоваться следующей командой:
+
+ [user@testhost ~]$ sudo tcpdump -i any -A port 12345  
+
+
+Опция -A говорит о том, что мы ходим видеть вывод в ASCII (поэтому это хорошо для текстовых протоколов), -i any указывает, что нас не интересует сетевой интерфейс, port — трафик какого порта дампить. Вместо port можно использовать host , либо комбинацию host и port ( host A and port X ). И еще полезной может оказаться опция -n — не конвертировать адреса в хостнеймы в выводе.
+Что если трафик бинарный? Тогда нам поможет опция -X — выводить данные в hex и ASCII:
+
+ [user@testhost ~]$ sudo tcpdump -i any -X port 12345  
+
+
+При этом надо учитывать, что в обоих вариантах использования будут выводиться IP пакеты, поэтому в начале каждого из них будут бинарные заголовки IP и TCP. Вот пример вывода для запроса " 123 " посланного в сервер, слушающий порт 12345:
+
+ [user@testhost ~]$ sudo tcpdump -i any -X port 12345 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode listening on any, link-type LINUX_SLL (Linux cooked), capture size 262144 bytes 14:27:13.224762 IP localhost.49794 > localhost.italk: Flags [P.], seq 2262177478:2262177483, ack 3317210845, win 342, options [nop,nop,TS val 3196604972 ecr 3196590131], length 5     0x0000:  4510 0039 dfb6 4000 4006 5cf6 7f00 0001  E..9..@.@.\.....     0x0010:  7f00 0001 c282 3039 86d6 16c6 c5b8 9edd  ......09........     0x0020:  8018 0156 fe2d 0000 0101 080a be88 522c  ...V.-........R,     0x0030:  be88 1833 3132 330d 0a00 0000 0000 0000  ...3123.........     0x0040:  0000 0000 0000 0000 00                   .........  
+
+
+Вместо вывода
+
+Конечно, в Linux есть еще много интересных вещей, о которых можно прочитать на Хабре, StackOverflow и других сайтах (в качестве примера приведу The Art of a Command Line , которая есть и в переводе ). Системные администраторы и DevOps используют гораздо больше команд и утилит для конфигурации серверов, но даже тестировщикам может не хватить перечисленных команд. Может потребоваться проверить корректность какого-то хитрого таймаута клиента к серверу или работа сервера при отсутствии свободного места на диске. Я уже не говорю про, например, Docker, который сейчас активно используется многими компаниями. Было бы интересно в рамках продолжения этой справочной статьи разобрать несколько примеров использования различных консольных утилит Linux в процессе тестирования сервисов? Также делитесь своим топом команд в комментариях :)
+
+Теги:
+
+        linux
+        bash
+        shell
+        команды
+        командная строка
+        первые шаги
+        основные команды
+        команды linux
+
+    Добавить метки 
+
+Укажите причину минуса, чтобы автор поработал над ошибками
+Отправить анонимно
+Пометьте публикацию своими метками Метки лучше разделять запятой. Например: программирование, алгоритмы
+Сохранить
+Читают сейчас
+
+    Зачем нужен eSIM. Как это работает и почему об этом так много говорят
+    11,3k 11
+    Tesla показала, как видит нейронная сеть Autopilot 3.0, и набирает новых сотрудников в команду разработчиков
+    11,2k 19
+    Zilog Z-80 — Бессмертный восьмидесятник
+    12,2k 42
+    Неотъемлемые помощники в деле разведки наиболее эффективной в мире спецслужбы (часть 2)
+    3,9k 4
+    GPS антенна своими руками за 5 минут
+    3,8k 9
+    Личное исследование по поводу коронавируса 2019-nCoV[Обновление]
+    42,1k 73
+    Сложный тест про финтех
+    Мегатест
+
+    +51
+    609
+    37,2k
+    50
+
+Выберите рекомендации для отправки автору:
+Указан только блог Орфографические ошибки Пунктуационные ошибки Отступы Текст-простыня Короткие предложения Смайлики Много форматирования Картинки Ссылки Оформление кода Рекламный характер
+Отправить
+Нарушение Опишите суть нарушения
+Отправить
+39,0
+Карма
+45,6
+Рейтинг
+14
+Подписчики
+0
+Подписки
+Написать Подписаться Отписаться
+Александр Захаренко   azakharenko
+Backend QA Team Lead
+Поделиться публикацией
+
+Похожие публикации
+
+    16 января 2018 в 14:27
+    Первое знакомство с командой ss
+    +45 27,1k 184 13
+    21 марта 2011 в 14:10
+    Использование bash completion в командной строке, собственных скриптах и приложениях. Часть 2
+    +52 15,6k 199 20
+    5 октября 2009 в 15:15
+    Использование bash completion в командной строке, собственных скриптах и приложениях. Часть 1
+    +50 34,4k 137 43
+
+Вопросы и ответы
+
+    tag image Linux Простой
+    Ошибки PocketMine-MP PHP?
+    1 ответ
+    tag image JavaScript Простой
+    Что нужно реализовать в node.js библиотеке, которая выводит объекты на экран?
+    0 ответов
+    tag image Linux Простой
+    Keepalived. VRRP. Будет ли работать Keepalived, если 2 сервера в разных ЦОД?
+    1 ответ
+    tag image Linux Сложный
+    Как сделать POST запрос на debian?
+    3 ответа
+    tag image Perl Средний
+    Нужна помощь - распарсить сайт с целью получения данных?
+    3 ответа
+
+Все вопросы Задать вопрос
+Комментарии 50
+Отслеживать новые в почте трекере
+
+    aol-nnov 20 декабря 2019 в 23:42
+    +3
+
+    Только, как и ifconfig, netstat уже отмирает. Пора учить ss вместо него )
+    Ответить
+        Bolik 21 декабря 2019 в 00:25
+        +2
+
+        Это да, жаль. Но я для себя решил, буду пользоваться старыми пока это ни начнет приносить боль. Надеюсь оно никогда не начнет приносить боль. Может быть в диагностике ты будешь менее быстр, чем молодежь с то новыми командами, зато голову лишний раз грузить не нужно ))
+        Ответить
+    yadgar46 21 декабря 2019 в 00:19
+    0
+    По-моему, легче просто просмотреть список команд в линуксе, но некоторые нюансы из статьи полезны!
+    Ответить
+    Bolik 21 декабря 2019 в 00:23
+    +2
+
+    Ой ой ой ) круто, спасибо. Это была такая ностальгия. Хорошо что современные начинающие люди пишут о таком для себя и для других таких же как он. Я просто лет на 13-15 назад откатился, когда читал такие же подробные маны по основам ) респект; )
+    Ответить
+        azakharenko 21 декабря 2019 в 02:20
+        +1
+        Спасибо за отзыв, приятно, что такая статья может вызвать ностальгические (внезапно) порывы :)
+        Ответить
+        alekciy 21 декабря 2019 в 10:08
+        +1
+        Читали вероятно на opennet?
+        Ответить
+        trapwalker 23 декабря 2019 в 10:26
+        0
+
+        Ну не знаю на счет "подробные"…
+        Мне кажется здесь автор по вершкам пробежался и можно было как-то развернуть пошире для юных и любознательных.
+        К примеру есть прям очень не очевидные с первого взгляда и очень полезные штуки, вроде tail -F file1.log file2.log . Эта штука благодаря флагу F не только читает файл непрерывно, но и подхватывает их по новой по указанному имени после переименования и пересоздания (например в связи с ротацией), а ещё смешивает вывод сразу из нескольких перечисленных файлов, что крайне удобно для отладки и чтения логов, когда они в разных файлах, но нужны в одном окне.
+        Хорошо было бы (раз уж пошли по азам) рассказать про whereis и про alias , поскольку эти команды дадут больше понимания в магии баша, чем просто шпаргалка.
+        Можно было сказать про .bashrc . Дело в том, что если входить в *nix системы заучивая команды, вся эта архитектура выглядит сложной. А если постараться понять базовые закономерности и внутреннюю логику, то окажется, что архитектура логична самоподобна и элегантна (пока не отрастёт борода и не копнёшь в нее еще глубже, там где кровь, кишки и подводные камни)
+        Ответить
+            alekciy 23 декабря 2019 в 17:43
+            –1
+
+                Хорошо было бы (раз уж пошли по азам) рассказать
+
+
+            Надеюсь, что вот это Заходим на сервер и bash-им! попадает под азы. Типа этого?
+            Ответить
+                trapwalker 23 декабря 2019 в 21:56
+                0
+                Ну типа того.
+                UPD. Попались полезняшки, спасибо
+                Ответить
+                    alekciy 23 декабря 2019 в 22:09
+                    –1
+
+                    Подписывайтесь, это не последнее полезное видео)
+                    Ответить
+    kunix 21 декабря 2019 в 00:31
+    0
+
+        $ man signal > man_signal 2&>1
+
+
+    2&>1? Кровь из глаз :(
+    Ответить
+        azakharenko 21 декабря 2019 в 02:18
+        +1
+        Спасибо, закралась ошибочка :(
+        Ответить
+    TaF 21 декабря 2019 в 02:17
+    0
+    Спасибо.
+    Возможности Linux оценил только сейчас, когда начал им активно пользоваться.
+    Статья безусловно полезная.
+    Ответить
+    justhabrauser 21 декабря 2019 в 04:07
+    –1
+
+    info <Enter>
+    Ответить
+    bugdesigner 21 декабря 2019 в 08:31
+    +5
+
+    Для тестера-баголова надо знать такие команды как: strace, pmap, lsof.
+    Ответить
+        azakharenko 21 декабря 2019 в 12:19
+        +2
+
+        А поделитесь примерами ситуаций, когда pmap используется при тестировании? По моему опыту, lsof и strace приходится использовать прям нечасто, а pmap вообще не довелось использовать :)
+        Но есть идея написать статью как раз про чуть более специфичные утилиты и разобрать их использование на примерах, потому что, например, ещё с помощью iptables или tc можно делать интересные вещи.
+        Ответить
+    Goron_Dekar 21 декабря 2019 в 10:00
+    +2
+
+        netstat -lptnu
+
+
+    У нас принято так: netstat -untap
+    Для любителей MTG запомнить легко.
+    Ответить
+        alekciy 21 декабря 2019 в 10:21
+        +2
+        Еще есть какой легко запоминаемый вариант: netstat -plan
+        Ответить
+        Dreyk 21 декабря 2019 в 21:53
+        +2
+        netstat -tulpan :)
+        Ответить
+            Oxyd 21 декабря 2019 в 22:50
+            0
+            С языка сорвали. Тюльпан наше всё! ;-)
+            Ответить
+        hoefling 22 декабря 2019 в 17:12
+        0
+
+        Для любителей немецкого ещё сгодится вариант netstat -tulpen . Tulpen — тюльпаны.
+        Ответить
+    alekciy 21 декабря 2019 в 10:19
+    +1
+    Вместо uname лучше использовать lsb_release -a.
+    Ответить
+        ip1981 21 декабря 2019 в 19:13
+        +1
+
+        Нет.
+        Ответить
+            alekciy 22 декабря 2019 в 16:31
+            0
+            Почему? Обычно версия ядра и прочая инфа из uname мало что дает для понимания системы. А вот lsb_release выдает полный расклад на инфу по дистрибутиву.
+            Ответить
+    irbis_al 21 декабря 2019 в 11:00
+    0
+
+    Мне кажется… надо ещё команду… Знать на каком "чипсете ходим"
+    sudo dmidecode | grep -A4 'Base Board Information'
+    Ответить
+    qark 21 декабря 2019 в 12:30
+    0
+
+    pacman -Qqe выведет только явно установленные пакеты. Для полного списка нужно убрать -e .
+    Ответить
+    iig 21 декабря 2019 в 16:00
+    0
+
+    Для тестирования, пожалуй, лучше использовать инструменты, связанные с тестированием. jmeter, как пример. А команды Linux желательно просто знать.
+    Ответить
+    velesov 21 декабря 2019 в 16:20
+    0
+    Спасибо за статью, часть про команду ps предлагаю дополнить командой pstree, например в таком виде pstree -up | less. Получим обзор всего дерева процессов.
+    Ответить
+    MozgFx 21 декабря 2019 в 16:27
+    +2
+
+    Для диагностики проблем с кэшем dns используется dig
+    Ответить
+    avorsa 21 декабря 2019 в 19:27
+    0
+    lsusb -t
+    update.rc-d
+    top/htop с плюшками
+    Ответить
+    MaxAlekseev 21 декабря 2019 в 20:43
+    0
+    hostname -I
+    Вывести IP адреса системы, иногда удобнее чем разбирать вывод ifconfig
+
+    history
+    Вывод истории команд
+
+    dmesg
+    Лог работы системы полезно в ситуации: подключил USB устройство, а ничего не происходит
+    Ответить
+    ne555 21 декабря 2019 в 21:34
+    +9
+    В статье нет ничего нового или того, что могло зацепить. Эти команды — обычная шпаргалка «юзера», у каждого она своя. Такими статьями шпорами интернет нашпигован под завязку, одна шпора больше другой и эта явно не лучшая.
+    Не понято, почему статью не заминусовали и не отфильтровали сразу.
+
+    по поводу «echo», например, это «ошибка» прошлого века есть «printf»
+
+     -$ echo 0 | md5sum 897316929176464ebc9ad085f31e7284 -$ printf 0 | md5sum cfcd208495d565ef66e7dff9f98764da 
+
+
+    -$ cmd1 | cmd2, а где такое в статье: -$ cmd2 $(cmd1)?
+    -$ watch -d -n 3 «ls /каталог» # автообновление просмотра папки каждые 3с и подсветка обновлений.
+    и тд. и тп. бесконечное…
+    Ответить
+        epishman 22 декабря 2019 в 00:22
+        0
+        Куча народа дома переходит с вина на линь, я вот например недавно шикарную команду выучил:
+        ~$ xcalib -invert -alter
+        Так что пока в мире есть вин, это знание не устареет :)
+        Ответить
+        Bronn 22 декабря 2019 в 15:04
+        0
+        И в подавляющем количестве подобных «шпор» ничего не сказано ни
+        про «великий и ужасный» dd , ни про бесподобную по возможностям для скриптописания nc ( AKA netcat).
+        Про dd правда была отдельная статья на Хабре, так что автор может вторую посвятить исключительно netcat, ну после прочтения man nc ;-)
+
+        Ответить
+    XNoNAME 21 декабря 2019 в 22:26
+    –2
+
+    С почином, ждем еще статей.
+    Ответить
+    Oxyd 21 декабря 2019 в 22:53
+    +3
+    Ну блиин. Я надеялся тут будут примеры конкретных кейсов по использованию команд в каждодневной жизни тестировщика.
+    Ответить
+    puyol_dev2 21 декабря 2019 в 23:29
+    0
+    По поводу mv оффтопа ) mv использует транзакционную модель перемещения, то есть сначала все файлы копируются полностью в новую директорию, а потом удаляются из старой. Очень удобно убивать процесс, если передумал, но нужно 2 раза больше места на диске, чем при перемещении каждого файла в коллекции. Как делает, например, mc по команде f6
+    Ответить
+        klinifini 22 декабря 2019 в 13:38
+        0
+        Всегда казалось, что просто меняет inode, т.е. делает без использования дополнительной памяти.
+        Ответить
+            Vkuvaev 22 декабря 2019 в 14:22
+            0
+            Совершенно верно, и это очевидно на больших файлах, mv выполняется мгновенно
+            Ответить
+    MrFrizzy 21 декабря 2019 в 23:56
+    0
+    помимо\вместо мана еще можно использовать tldr pages
+    Ответить
+    philfreeeu 22 декабря 2019 в 14:28
+    +1
+    Еще стоит упомянуть, что tcpdump может сохранять траффик в файл, который можно открыть в wireshark.
+    Ответить
+    bblkovo 22 декабря 2019 в 17:12
+    0
+
+    Хотел бы ещё сказать про cp mv и их использование с фигурными скобками к примеру нужно создать быстро копию папки для бекапа — cp -r dir{,.bkp} на выходе сделает нам папку dir.bkp. Или mv di{r,b} переименует папку из dir в dib.
+    Также не увидел про cd — возврат в предыдущую директорию по истории
+    Ответить
+        alekciy 23 декабря 2019 в 17:47
+        0
+
+            Также не увидел про cd — возврат в предыдущую директорию по истории 
+
+
+        Съело разметку, так нагляднее:
+
+         cd - 
+
+        (минус в конце важен).
+        Ответить
+    pepemon 22 декабря 2019 в 17:12
+    0
+    А при здесь Linux, если половина статьи больше про Bash и общие вещи для всех Unix-like?
+    Ответить
+    vyo 22 декабря 2019 в 20:22
+    0
+
+    При использовании find регулярку лучше от баша подальше взять в одинарные кавычки, а то может и раскрыть.
+    Ответить
+        trapwalker 23 декабря 2019 в 10:44
+        0
+
+        Да эта херня с кавычками бесит вообще. Внезапно раскрываемые кавычки во всяких xargs. Много магии и не очевидной логики. Сколько бороды нужно на свитер пустить, чтобы это начало нравиться — кошмар вообще. Но потом приходит, конечно, понимание и не хочется ничего менять.
+        А так посоветовал бы новичкам, которые не хотят доламывать мозг окончательно (хотя. может быть и стоило бы) для многих вещей вместо всяких awk , sed и perl юзать pythonpy.
+        Ответить
+    maxnosib 23 декабря 2019 в 18:21
+    0
+    спасибо очень полезный справочник для начинающего
+    Ответить
+    alekciy 24 декабря 2019 в 09:15
+    0
+
+        Это можно сделать с помощью утилиты hexdump
+
+
+    Я бы добавил в копилку xdd для бинарного просмотра:
+
+     echo 'Привет, мир!' | xxd -b 00000000: 11010000 10011111 11010001 10000000 11010000 10111000 ...... 00000006: 11010000 10110010 11010000 10110101 11010001 10000010 ...... 0000000c: 00101100 00100000 11010000 10111100 11010000 10111000 , .... 00000012: 11010001 10000000 00100001 00001010 ..!.  
+
+    Ответить
+    ashed 24 декабря 2019 в 11:19
+    0
+
+    Вот статья той же направленности и не хуже.
+    https://m.habr.com/ru/company/0/blog/323330/
+    Ответить
+    DieSlogan 24 декабря 2019 в 12:30
+    +1
+    «cd -»
+    чтобы вернуться обратно в предыдущую диру
+
+    А по tail набросал как-то свой скриптик, чтобы читать логи, можно закинуть в ~/.bash_profile
+    По команде tailf <названия лога> выводит «tailf -f» и подсвечивает красным, желтым и синим, если сообщения имеют ключевое слово error, warn и debug, соответственно. Очень удобно тейлить логи на предмет ошибок и нештатных ситуаций:
+
+     tailf () { tail -f $1 | sed --unbuffered -e 's/\(.*FATAL.*\)/\o033[1;31m\1\o033[0;39m/' -e 's/\(.*ERROR.*\)/\o033[31m\1\o033[39m/' -e 's/\(.*WARN.*\)/\o033[33m\1\o033[39m/' -e 's/\(.*DEBUG.*\)/\o033[34m\1\o033[39m/' -e 's/\(.*TRACE.*\)/\o033[30m\1\o033[39m/' -e 's/\(.*[Ee]xception.*\)/\o033[1;39m\1\o033[0;39m/' }  
+
+
+    Ответить
+
+Вы не можете комментировать эту публикацию
+
+Вы можете комментировать публикации, которые не старше 30 дней, а также те, под которыми уже опубликован хотя бы один ваш комментарий. Вы не можете комментировать публикацию, если другой ваш комментарий к этой публикации еще не прошел проверку.
+Продолжить
+Вы не можете комментировать эту публикацию
+
+Вы можете комментировать публикации, которые не старше 30 дней, а также те, под которыми уже опубликован хотя бы один ваш комментарий. Вы не можете комментировать публикацию, если другой ваш комментарий к этой публикации еще не прошел проверку.
+Что обсуждают
+
+    Сейчас
+    Вчера
+    Неделя
+
+    Мы приближаемся к пределу вычислительных мощностей – нам нужны новые программисты
+    105k 467
+    Коронавирус 2019-nCoV. FAQ по защите органов дыхания и дезинфекции
+    71,7k 287
+    Карма — это отчуждение от авторства
+    33,9k 1619
+    Домашний веб-сервер на солнечных батареях отработал 15 месяцев: аптайм 95,26%
+    15,2k 36
+    Операционная Система «Сивелькирия»: вводное описание
+    13k 58
+
+    Разбираем звук Dial-up модема
+    20,2k 127
+    Ваша коммерческая информация на Microsoft Exchange Online? Ваша ли она по праву — и если да, то по какому?
+    6k 53
+    Веб-компоненты и открытые стандарты
+    9,9k 50
+    Два часа и 3.5 доллара. Как я сделал простой сайт с визуализацией распространения коронавируса
+    23,7k 42
+    Zilog Z-80 — Бессмертный восьмидесятник
+    12,2k 42
+
+    Коронавирусы: от SARS к 2019-nCoV
+    147k 1333
+    У меня нулевая текучка
+    101k 461
+    Независимые браузеры более не конкурентоспособны
+    55,4k 333
+    Коронавирус 2019-nCoV. FAQ по защите органов дыхания и дезинфекции
+    71,7k 287
+    Справочник по собеседованиям для тех программистов, которые их не понимают
+    95,2k 282
+
+Сообщить об ошибке
+
+Выделен слишком большой фрагмент текста. Чтобы автору было легче понять в чем ошибка, выделите только проблемные слово или фразу или добавьте пояснение ниже.
+
+Сообщение будет отправлено в ваш диалог с автором.
+Отправить Отменить
+Самое читаемое
+
+    Сутки
+    Неделя
+    Месяц
+
+    Два часа и 3.5 доллара. Как я сделал простой сайт с визуализацией распространения коронавируса
+    +45 23,7k 64 42
+    Разбираем звук Dial-up модема
+    +62 20,2k 55 127
+    Zilog Z-80 — Бессмертный восьмидесятник
+    +52 12,2k 49 42
+    Зачем нужен eSIM. Как это работает и почему об этом так много говорят
+    +18 11,3k 37 11
+    Tesla показала, как видит нейронная сеть Autopilot 3.0, и набирает новых сотрудников в команду разработчиков
+    +11 11,2k 3 19
+
+    Коронавирусы: от SARS к 2019-nCoV
+    +246 147k 223 1333
+    У меня нулевая текучка
+    +192 101k 435 461
+    Справочник по собеседованиям для тех программистов, которые их не понимают
+    +208 95,2k 434 282
+    Чешские программисты бесплатно написали сайт стоимостью 16 миллионов евро? Правда?
+    +277 84,1k 130 209
+    Коронавирус 2019-nCoV. FAQ по защите органов дыхания и дезинфекции
+    +76 71,7k 251 287
+
+    10 признаков того, что хороший программист из вас не получится
+    +116 211k 507 521
+    Коронавирусы: от SARS к 2019-nCoV
+    +246 147k 223 1333
+    Как я чуть не выкинул 150к на ветер или история установки приточной вентиляции в квартире
+    +365 132k 986 536
+    Неблагодарный opensource: разработчик самого быстрого веб сервера удалил его репозиторий — Важный апдейт
+    +239 116k 124 921
+    Ubuntu — не лучший настольный Linux
+    +56 111k 285 609
+
+Рекомендуем
+Разместить
+
+    Промо
+    Системная интеграция и визуальная конфигурация вместо «позвоните нам»
+    Мегатест
+    Что ты знаешь про финтех? Пройди сложный тест
+
+Ваш аккаунт
+
+    Профиль
+    Трекер
+    Настройки
+
+Разделы
+
+    Публикации
+    Новости
+    Хабы
+    Компании
+    Пользователи
+    Песочница
+
+Информация
+
+    Правила
+    Помощь
+    Документация
+    Соглашение
+    Конфиденциальность
+
+Услуги
+
+    Реклама
+    Тарифы
+    Контент
+    Семинары
+    Мегапроекты
+
+Если нашли опечатку в посте, выделите ее и нажмите Ctrl+Enter, чтобы сообщить автору.
+© 2006 – 2020 « TM »
+Настройка языка
+О сайте
+Служба поддержки
+Мобильная версия
+
+Настройка языка
+Интерфейс
+Русский
+English
+Язык публикаций
+Русский
+Английский
+Сохранить настройки
+↑ 0 ↓

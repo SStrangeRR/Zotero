@@ -1,0 +1,60 @@
+.mysearch {
+  display: inline;
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
+  padding-top: 9px;
+  }
+.yandexform {
+ display: block;
+ float: right;
+ width: 180px;
+}
+.google, .common{
+display:block;float:right;
+}
+
+.navbar_search {
+ display: block;
+ float: right !important;
+ position: relative !important;
+ right: 0px !important;
+}
+.but {
+ display:inline;
+ float: right;
+ margin:1px 2px 0;
+}
+.form{
+ display: none;
+}
+#common .form{
+ display: block;
+}
+#common .but{
+ display: none;
+}
+
+.searchbut {
+margin-bottom: -1px;
+    margin-top: 1px;
+}
+.buttoncont {
+margin-right: 2px;
+}
+
+.globalsearch .textboxcontainer, .globalsearch .buttoncontainer span, 
+.globalsearch .buttoncontainer  {
+border: 0 !important;
+}
+
+.globalsearch .searchbutton {
+margin-top: -1px !important;
+}
+.globalsearch .textboxcontainer span {
+border: 0 !important;
+padding-top: 4px !important;
+}
+.globalsearch input.textbox {
+    padding: 2px;
+}
